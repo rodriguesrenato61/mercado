@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+	<head>
+		<meta charset="utf-8">
+		<title>Modal</title>
+	</head>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		
+		.modal-fundo{
+			position: absolute;
+			top: 0px;
+			width: 100%;
+			height: 100%;
+			background-color: blue;
+			opacity: 0.2;
+			display: none;
+		}
+		
+		.modal-meio{
+			position: absolute;
+			top: 60px;
+			width: 100%;
+			display: none;
+		}
+		
+		.modal-box{
+			width: 60%;
+			margin: 0 auto;
+			height: 300px;
+			background-color: green;
+			padding-top: 20px;
+		}
+		
+		.modal-body{
+			width: 90%;
+			height: 280px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		
+		.modal-items{
+			height: 100%;
+			float: left;
+		}
+		
+		.modal-imagem{
+			width: 35%;
+		}
+		
+		.modal-campos{
+			width: 60%;
+		}
+		
+		.imagem{
+			width: 80%;
+			height: 160px;
+			border: 1px solid;
+			margin: 10px auto;
+		}
+		
+		.div-btn-imagem{
+			
+			width: 70%;
+			margin: 20px auto;
+		}
+		
+		.btn-imagem{
+			width: 100%;
+			height: 30px; 
+			font-size: 18px;
+		}
+		
+		.modal-campos input, select{
+			margin-top: 10px;
+			margin-right: 20px;
+			font-size: 18px;
+			height: 30px;
+		}
+		
+		.div-buttons{
+			width: 70%;
+			margin: 30px auto;
+			
+		}
+		
+		.modal-campos div button{
+			height: 30px;
+			font-size: 18px;
+			margin-right: 20px;
+			width: 40%;
+		}
+		
+		#codigo{
+			width: 40%;
+		}
+		
+		#nome{
+			width: 85%;
+		}
+		
+		#categoria{
+			width: 70%;
+		}
+		
+		#pcusto{
+			width: 40%;
+		}
+		
+		#pvenda{
+			width: 40%;
+		}
+		
+		#estoque{
+			width: 40%;
+		}
+		
+		#modal-show{
+			width: 100px;
+			height: 40px;
+			font-size: 25px;
+		}
+		
+		.img-carregar{
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+	<body>
+		<button id="modal-show">Modal</button>
+		<div class="modal-fundo" id="modal-fundo">
+		</div>
+		<div class="modal-meio" id="modal-meio">
+			<div class="modal-box">
+				<div class="modal-body">
+					<div class="modal-items modal-imagem">
+						<div class="imagem" id="imagem">
+							Imagem
+						</div>
+						<div class="div-btn-imagem">
+							<input type="file" id="carregar" class="btn-imagem" onChange="carregarImagem()">
+						</div>
+					</div>
+					<div class="modal-items modal-campos">
+						<input type="number" id="codigo" placeholder="codigo">
+						<input type="text" id="nome" placeholder="produto">
+						<select id="categoria">
+							<option value="0">--Categoria--</option>
+						</select>
+						<input type="number" id="pcusto" placeholder="preço de custo">
+						<input type="number" id="pvenda" placeholder="preço de venda">
+						<input type="number" id="estoque" placeholder="estoque">
+						<div class="div-buttons">
+							<button class="btn-cadastrar" id="btn-cadastrar">cadastrar</button>
+							<button class="btn-cancelar" id="btn-cancelar">cancelar</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="resultado">
+		</div>
+	</body>
+	<script type="text/javascript">
+	
+		const modalButton = document.querySelector("#modal-show");
+		
+		const modalFundo = document.querySelector("#modal-fundo");
+		const modalMeio = document.querySelector("#modal-meio");
+		
+		const codigo = document.querySelector("#codigo");
+		const nome = document.querySelector("#nome");
+		const categoria = document.querySelector("#categoria");
+		const pcusto = document.querySelector("#pcusto");
+		const pvenda = document.querySelector("#pvenda");
+		const estoque = document.querySelector("#estoque");
+		
+		const cadastrar = document.querySelector("#btn-cadastrar");
+		const cancelar = document.querySelector("#btn-cancelar");
+		
+		const resultado = document.querySelector("#resultado");
+		
+		const carregar = document.querySelector("#carregar");
+		const imagem = document.querySelector("#imagem");
+		
+		function carregarImagem(){
+			let img = imagem.file[0];
+			var reader = new FileReader();
+			reader.onloadend = function(){
+				imagem.innerHTML = "<img class='img-carregar' src='"+reader.result+"'>";
+			}
+			
+			if(img){
+				reader.readAsDataUrl(img);
+			}else{
+				imagem.innerHTML = "<img class='img-carregar' src='' alt='carregar imagem'>";
+			}
+		}
+		
+		function modalShow(){
+			modalFundo.style.display = "block";
+			modalMeio.style.display = "block";
+		}
+		
+		function modalClose(){
+			modalFundo.style.display = "none";
+			modalMeio.style.display = "none";
+		}
+		
+		function insertProduto(){
+			let html = "<h1>Código: "+codigo.value+"</h1>";
+			html += "<h1>Nome: "+nome.value+"</h1>";
+			html += "<h1>Categoria: "+categoria.value+"</h1>";
+			html += "<h1>Preço de custo: "+pcusto.value+"</h1>";
+			html += "<h1>Preço de venda: "+pvenda.value+"</h1>";
+			html += "<h1>Estoque: "+estoque.value+"</h1>";
+			
+			resultado.innerHTML = html;
+			modalClose();
+		}
+		
+		function cadastrarProduto(cod, name_produto, cat, pc, pv, quant){
+			let dados = {
+				opc: 'create',
+				codigo: cod,
+				nome: name_produto,
+				categoria: cat,
+				pcusto: pc,
+				pvenda: pv,
+				estoque: quant
+			};
+			
+			fetch('http://localhost/Carrinho/Controllers/ProdutoController.php', {
+				method: 'POST',
+				body: JSON.stringify(dados)
+			}).then(function(response){
+				return response.json();
+			}).then(function(response){
+				let msg;
+				response.forEach(function(retorno){
+					msg = retorno.msg;
+				});
+				alert(msg);
+			}).catch(function(err){
+				alert("Erro de requisição! "+err);
+			});
+		}
+		
+		modalButton.addEventListener('click', function(){
+			modalShow();
+		});
+		
+		cancelar.addEventListener('click', function(){
+			modalClose();
+		});
+		
+		cadastrar.addEventListener('click', function(){
+			insertProduto();
+			cadastrarProduto(codigo.value, nome.value, categoria.value, pcusto.value, pvenda.value, estoque.value);
+		});
+		
+	
+	</script>
+</html>

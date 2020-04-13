@@ -1,0 +1,290 @@
+
+*{
+	margin: 0;
+	padding: 0;
+}
+
+.container{
+	width: 75%;
+	height: 800px;
+	margin: 0 auto;
+}
+		
+.nav-superior{
+	width: 100%;
+	height: 50px;
+	background-color: #D8D8D8;
+}
+		
+.nav-superior ul{
+	list-style: none;
+}
+		
+.nav-superior ul li{
+	float: right;
+	height: 50px;
+	padding-left: 30px;
+	padding-right: 30px;
+}
+		
+.nav-superior ul li a{
+	text-decoration: none;
+	color: black;
+	line-height: 50px;
+	font-size: 20px;
+}
+		
+.produtos-container{
+	margin-top: 80px;
+}
+		
+.produtos-container form input{
+	height: 40px;
+	float: left;
+	margin-right: 10px;
+	font-size: 20px;
+}
+
+#categorias{
+	height: 43px;
+	float: left;
+	margin-right: 10px;
+	font-size: 20px;
+	margin-top: 0px;
+}
+
+button.btn-buscar{
+	float: left;
+	font-size: 20px;
+	height: 43px;
+	width: 100px;
+}
+		
+#codigo{
+	width: 15%;
+}
+		
+#nome{
+	width: 30%;
+}
+
+.pesquisar{
+	margin-bottom: 20px;
+}
+
+.produtos-list{
+	padding-top: 80px;
+}
+		
+#produtos-items{ 
+	width: 100%;
+	height: 500px;
+	overflow: auto;
+	background-color: #BDBDBD;
+}
+		
+.produto-info{
+	float: left;
+	height: 100%;			
+}
+		
+.produto-item{
+	width: 90%;
+	padding-top: 10px;
+	margin: 20px auto;
+	height: 130px;
+	background-color: #FFF;
+}
+		
+.produto-item-interno{
+	width: 95%;
+	margin: 0 auto;
+	height: 120px;
+	background-color: #FFF;
+}
+		
+.produto-dados{
+	width: 50%;
+}
+		
+.produto-imagem{
+	width: 20%;
+}
+		
+.produto-editar{
+	width: 10%;
+	text-align: center;
+}
+		
+.produto-remover{
+	width: 15%;
+	text-align: center;
+}
+		
+a.acao{
+	text-decoration: none;
+	line-height: 120px;
+}
+
+.paginate{
+	padding-left: 20px;
+	padding-right: 20px;
+	width: 30%; 
+	margin: 30px auto;
+	height: 50px;
+	background-color: #D8D8D8;
+	line-height: 50px;
+	text-align: center;
+}
+
+.paginate h2{
+	font-size: 30px;
+}
+
+a.comum{
+	text-decoration: none;
+	color: black;
+}
+		
+a.escolhido{
+	text-decoration: none;
+	color: blue;
+}
+
+a.seta{
+	text-decoration: none;
+	color: green;
+}
+
+.btn-novo{
+	float: right;
+	font-size: 20px;
+	height: 43px;4
+}
+
+.modal-fundo{
+	position: fixed;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	background-color: blue;
+	opacity: 0.2;
+	display: none;
+}
+		
+		.modal-meio{
+			position: absolute;
+			top: 100px;
+			width: 100%;
+			display: none;
+		}
+		
+		.modal-meio2{
+			position: absolute;
+			top: 100px;
+			width: 100%;
+			display: none;
+		}
+		
+		.modal-box{
+			width: 60%;
+			margin: 0 auto;
+			height: 300px;
+			background-color: green;
+			padding-top: 20px;
+		}
+		
+		.modal-body{
+			width: 90%;
+			height: 280px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		
+		.modal-items{
+			height: 100%;
+			float: left;
+		}
+		
+		.modal-imagem{
+			width: 35%;
+		}
+		
+		.modal-campos{
+			width: 60%;
+		}
+		
+		.imagem{
+			width: 80%;
+			height: 160px;
+			border: 1px solid;
+			margin: 10px auto;
+		}
+		
+		.div-btn-imagem{
+			
+			width: 70%;
+			margin: 20px auto;
+		}
+		
+		.btn-imagem{
+			width: 100%;
+			height: 30px; 
+			font-size: 18px;
+		}
+		
+		.modal-campos input, select{
+			margin-top: 10px;
+			margin-right: 20px;
+			font-size: 18px;
+			height: 30px;
+		}
+		
+		.div-buttons{
+			width: 70%;
+			margin: 30px auto;
+			
+		}
+		
+		.modal-campos div button{
+			height: 30px;
+			font-size: 18px;
+			margin-right: 20px;
+			width: 40%;
+		}
+		
+		#codigo_produto{
+			width: 40%;
+		}
+		
+		#nome_produto{
+			width: 85%;
+		}
+		
+		#categoria_produto{
+			width: 70%;
+		}
+		
+		#pcusto{
+			width: 40%;
+		}
+		
+		#pvenda{
+			width: 40%;
+		}
+		
+		#estoque{
+			width: 40%;
+		}
+		
+		#modal-show{
+			width: 100px;
+			height: 40px;
+			font-size: 25px;
+		}
+		
+		.img-carregar{
+			width: 100%;
+			height: 100%;
+		}
+		

@@ -1,0 +1,94 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+.container{
+	width: 75%;
+	height: 800px;
+	margin: 0 auto;
+}
+		
+.nav-superior{
+	width: 100%;
+	height: 50px;
+	background-color: #D8D8D8;
+}
+		
+.nav-superior ul{
+	list-style: none;
+}
+		
+.nav-superior ul li{
+	float: right;
+	height: 50px;
+	padding-left: 30px;
+	padding-right: 30px;
+}
+		
+.nav-superior ul li a{
+	text-decoration: none;
+	color: black;
+	line-height: 50px;
+	font-size: 20px;
+}
+		
+.carrinhos-container{
+	margin-top: 80px;
+}
+		
+.carrinhos-container form input{
+	height: 40px;
+	float: left;
+	margin-right: 10px;
+	font-size: 20px;
+}
+
+button.btn-buscar{
+	float: left;
+	font-size: 20px;
+	height: 43px;
+	width: 100px;
+}
+		
+#inicio{
+	width: 30%;
+}
+
+#fim{
+	width: 30%;
+}
+
+.pesquisar{
+	margin-bottom: 20px;
+}
+
+.btn-novo{
+	float: right;
+	font-size: 20px;
+	height: 43px;
+}
+
+.carrinhos-list{
+	padding-top: 80px;
+}
+		
+.carrinhos-items{ 
+	width: 100%;
+	height: 500px;
+	overflow: auto;
+	background-color: #BDBDBD;
+}
+
+#carrinhos-table{
+	width: 100%;
+}
+
+#carrinhos-table th{
+	font-size: 22px;
+}
+
+#carrinhos-table td{
+	text-align: center;
+	font-size: 22px;
+}
