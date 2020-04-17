@@ -7,8 +7,34 @@ Esta aplicação realiza operações de venda para um mercado. Por enquanto esta
 
 ## Exibindo produtos
 
-![exibindo produtos](https://github.com/rodriguesrenato61/mercado/blob/master/prints/print02.png)
+![exibindo produtos](https://github.com/rodriguesrenato61/mercado/blob/master/prints/produtos.png)
 
 ## Exibindo carrinhos
 
-![exibindo carrinhos](https://github.com/rodriguesrenato61/mercado/blob/master/prints/print03.png)
+![exibindo carrinhos](https://github.com/rodriguesrenato61/mercado/blob/master/prints/carrinhos.png)
+
+## Exibindo vendas
+
+![exibindo vendas](https://github.com/rodriguesrenato61/mercado/blob/master/prints/vendas.png)
+
+## Cadastrando usuário
+
+![exibindo carrinhos](https://github.com/rodriguesrenato61/mercado/blob/master/prints/cadastrar_user.png)
+
+## Cadastrar mercado
+
+![exibindo carrinhos](https://github.com/rodriguesrenato61/mercado/blob/master/prints/cadastrar_mercado.png)
+
+## Códigos
+
+![classe Database](https://github.com/rodriguesrenato61/mercado/blob/master/prints/codigoPrint02.png)
+
+![javascript](https://github.com/rodriguesrenato61/mercado/blob/master/prints/codigoPrint03.png)
+
+![banco de dados](https://github.com/rodriguesrenato61/mercado/blob/master/prints/bancoPrint01.png)
+
+
+
+
+
+
