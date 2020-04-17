@@ -64,7 +64,7 @@
 						</a>
 					</li>
 					<li>
-						<a href="#">
+						<a href="../../vendas/index/index.php?page=1">
 							VENDAS
 						</a>
 					</li>

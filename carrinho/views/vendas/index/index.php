@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="styles.css">
-		<title>Carrinhos</title>
+		<title>Vendas</title>
 	</head>
 	<body>
 		
@@ -12,7 +12,7 @@
 			<nav class="nav-superior">
 				<ul>
 					<li>
-						<a href="../../vendas/index/index.php?page=1">VENDAS</a>
+						<a href="../../carrinhos/index/index.php?page=1">CARRINHOS</a>
 					</li>
 					<li>
 						<a href="../../produtos/index/index.php?page=1">PRODUTOS</a>
@@ -20,7 +20,7 @@
 				</ul>
 			</nav>
 			
-			<div class="carrinhos-container">
+			<div class="vendas-container">
 				<div class="pesquisar">
 					<form id="form-pesquisar">
 						<input type="text" id="inicio" placeholder="data inicial">
@@ -35,22 +35,25 @@
 						?>
 						<button type="submit" class="btn-buscar">Buscar</button>
 					</form>
-					<button class="btn-novo" id="btn-novo">New</button>
+					
 				</div> <!-- class pesquisar -->
-				<div class="carrinhos-list">
-					<div class="carrinhos-items">
-						<table border="1px" id="carrinhos-table">
+				<div class="vendas-list">
+					<div class="vendas-items">
+						<table border="1px" id="vendas-table">
 							<tr>
 								<th>Id</th>
-								<th>Produtos</th>
-								<th>Status</th>
+								<th>Código</th>
+								<th>Produto</th>
+								<th>Preço</th>
+								<th>Unidades</th>
 								<th>Total</th>
-								<th>Data</th>
+								<th>Dia</th>
 								<th>Hora</th>
+								</tr>
 							</tr>
-						</table> <!--id carrinhos-table -->
-					</div> <!-- class carrinhos-items -->
-				</div> <!-- class carrinhos-list -->
+						</table> <!--id vendas-table -->
+					</div> <!-- class vendas-items -->
+				</div> <!-- class vendas-list -->
 				
 				<div class="paginate" id="paginate">
 				</div>

@@ -5,8 +5,9 @@
 	
 	class Venda{
 	
-		private $pdo;
+		private $pdo, $total;
 		private $produto;
+		public $query_string;
 		
 		public function __construct(){
 			global $connection;
@@ -51,16 +52,73 @@
 			return $retorno;
 		}
 	
-		public function index($carrinho_id, $status){
-		
-			$sql = $this->pdo->prepare("SELECT * FROM vw_vendas WHERE venda_status = :s AND carrinho_id = :c ORDER BY dt_criacao DESC");
-			if($status == 0){
-				$sql->bindValue(":s", "Não pago");
-			}else{
-				$sql->bindValue(":s", "Pago");
+		public function index($carrinho_id, $status, $inicio, $fim, $page){
+			
+			$limit = 10;
+			
+			$query = "SELECT * FROM vw_vendas";
+			$query_total = "SELECT COUNT(*) AS total FROM vw_vendas";
+			
+			$clausulas[] = array();
+			$i = 0;
+			
+			if($carrinho_id != null && $carrinho_id != "0"){
+				$carrinho_id = (int) $carrinho_id;
+				$clausulas[$i] = "carrinho_id = ".$carrinho_id;
+				$i++;
 			}
 			
-			$sql->bindValue(":c", (int) $carrinho_id);
+			if($status != null && $status != ""){
+				$status = (int) $status;
+				switch($status){
+					case 0:
+						$clausulas[$i] = "venda_status = 'Não pago'";
+						$i++;
+					break;
+					case 1:
+						$clausulas[$i] = "venda_status = 'Pago'";
+						$i++;
+					break;
+				}
+				
+			}
+			
+			if($inicio != null && $inicio != ""){
+				$clausulas[$i] = "data_venda >= '".$inicio."'";
+				$i++;
+			}
+			
+			if($fim != null && $fim != ""){
+				$clausulas[$i] = "data_venda <= '".$fim."'";
+				$i++;
+			}
+			
+			$filtros = "";
+			
+			for($cont = 0; $cont < $i; $cont++){
+				if($cont == 0){
+					$filtros .= " WHERE ".$clausulas[$cont];
+				}else{
+					$filtros .= " AND ".$clausulas[$cont];
+				}
+			}
+			
+			$query_total .= $filtros;
+			
+			$this->setTotal($query_total);
+			
+			$filtros .= " ORDER BY dt_criacao DESC";
+			
+			if($page != "" && $page != null && $page != "0"){
+				$filtros .= " LIMIT ".(($page - 1) * $limit).", ".$limit;
+			}
+			
+			$query .= $filtros;
+			
+			$this->query_string = $query;
+		
+			$sql = $this->pdo->prepare($query);
+			
 			$sql->execute();
 			
 			return $sql;
@@ -152,6 +210,18 @@
 			}
 			
 			return json_encode($registro);
+		}
+		
+		public function setTotal($query){
+			$sql = $this->pdo->prepare($query);
+			$sql->execute();
+			$row = $sql->fetch();
+			
+			$this->total = (int) $row['total'];
+		}
+		
+		public function getTotalRegistros(){
+			return $this->total;
 		}
 	}
 

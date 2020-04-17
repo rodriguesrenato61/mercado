@@ -29,6 +29,11 @@ function Rota(baseUrl){
 		return retorno;
 	}
 	
+	this.redirect = function(link){
+		url = baseUrl+"/"+link;
+		window.location.href = url;
+	}
+	
 }
 
 const rota = new Rota("http://localhost/carrinho");

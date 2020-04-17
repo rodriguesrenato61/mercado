@@ -18,8 +18,8 @@
 					"codigo" => $row['codigo'],
 					"produto" => $row['produto'],
 					"categoria" => $row['categoria'],
-					"pcusto" => $row['pcusto'],
-					"pvenda" => $row['pvenda'],
+					"pcusto" => number_format((float) $row['pcusto'], 2, ',', '.'),
+					"pvenda" => number_format((float) $row['pvenda'], 2, ',', '.'),
 					"estoque" => $row['estoque'],
 					"total" => $total
 				);
@@ -49,8 +49,8 @@
 				"produto" => $row['produto'],
 				"categoria_id" => $row['categoria_id'],
 				"categoria" => $row['categoria'],
-				"pcusto" => $row['pcusto'],
-				"pvenda" => $row['pvenda'],
+				"pcusto" => number_format((float) $row['pcusto'], 2, ',', '.'),
+				"pvenda" => number_format((float) $row['pvenda'], 2, ',', '.'),
 				"estoque" => $row['estoque'] 
 			);
 			

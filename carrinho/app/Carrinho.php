@@ -4,7 +4,7 @@
 	
 	class Carrinho{
 		
-		private $pdo;
+		private $pdo, $total;
 		
 		public function __construct(){
 			global $connection;
@@ -13,7 +13,10 @@
 		
 		public function index($inicio, $fim, $page){
 			
+			$limit = 5;
+			
 			$query = "SELECT * FROM vw_carrinhos";
+			$query_total = "SELECT COUNT(*) AS total FROM vw_carrinhos";
 			
 			$clausulas[] = array();
 			$i = 0;
@@ -31,9 +34,17 @@
 			for($cont = 0; $cont < $i; $cont++){
 				if($cont == 0){
 					$query .= " WHERE ".$clausulas[$cont];
+					$query_total .= " WHERE ".$clausulas[$cont];
 				}else{
 					$query .= " AND ".$clausulas[$cont];
+					$query_total .= " AND ".$clausulas[$cont];
 				}
+			}
+			
+			$this->setTotal($query_total);
+			
+			if($page != "" && $page != null && $page != "0"){
+				$query .= " LIMIT ".(($page - 1) * $limit).", ".$limit;
 			}
 			
 			$sql = $this->pdo->prepare($query);
@@ -171,6 +182,18 @@
 			
 			return $retorno;
 			
+		}
+		
+		public function setTotal($query){
+			$sql = $this->pdo->prepare($query);
+			$sql->execute();
+			$row = $sql->fetch();
+			
+			$this->total = (int) $row['total'];
+		}
+		
+		public function getTotal(){
+			return $this->total;
 		}
 	}
 

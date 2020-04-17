@@ -73,7 +73,7 @@
 			<nav class="nav-superior">
 				<ul>
 					<li>
-						<a href="#">VENDAS</a>
+						<a href="../../vendas/index/index.php?page=1">VENDAS</a>
 					</li>
 					<li>
 						<a href="../../carrinhos/index/index.php">CARRINHOS</a>

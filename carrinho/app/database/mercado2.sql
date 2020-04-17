@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Tempo de geração: 13/04/2020 às 17:40
+-- Tempo de geração: 17/04/2020 às 16:51
 -- Versão do servidor: 10.3.22-MariaDB-0+deb10u1
 -- Versão do PHP: 7.3.14-1~deb10u1
 
@@ -54,10 +54,24 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `fechar_carrinho` (`id_carrinho` INT
 
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_mercado` (`par_nome` VARCHAR(50), `par_email` VARCHAR(30), `par_endereco` VARCHAR(100), `par_cnpj` VARCHAR(11), `par_fone` VARCHAR(13), `par_zap` VARCHAR(13), `par_admin_id` INTEGER)  BEGIN
+
+	INSERT INTO estabelecimentos(nome, email, endereco, cnpj, fone, zap, admin_id, dt_criacao, dt_atualizacao)
+		VALUES(par_nome, par_email, par_endereco, par_cnpj, par_fone, par_zap, par_admin_id, NOW(), NOW());
+
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_produto` (`nome_produto` VARCHAR(50), `id_categoria` INTEGER, `preco_custo` DOUBLE, `preco_venda` DOUBLE, `estoque_produto` INTEGER)  BEGIN
 
 	INSERT INTO produtos(nome, categoria_id, pvenda, pcusto, estoque)
 			VALUES(nome_produto, id_categoria, preco_venda, preco_custo, estoque_produto);
+
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `insert_user` (`par_nome` VARCHAR(100), `par_email` VARCHAR(30), `par_user_name` VARCHAR(30), `par_passwd` VARCHAR(32), `par_fone` VARCHAR(14), `par_zap` VARCHAR(14), `par_tipo_id` INTEGER)  BEGIN
+
+	INSERT INTO users(nome, email, user_name, passwd, fone, zap, tipo_id, dt_criacao, dt_atualizacao)
+		VALUES(par_nome, par_email, par_user_name, par_passwd, par_fone, par_zap, par_tipo_id, NOW(), NOW());
 
 END$$
 
@@ -229,6 +243,53 @@ INSERT INTO `categorias` (`id`, `nome`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `estabelecimentos`
+--
+
+CREATE TABLE `estabelecimentos` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(70) DEFAULT NULL,
+  `email` varchar(30) DEFAULT NULL,
+  `endereco` varchar(100) DEFAULT NULL,
+  `fone` varchar(11) DEFAULT NULL,
+  `zap` varchar(11) DEFAULT NULL,
+  `cnpj` varchar(11) DEFAULT NULL,
+  `admin_id` int(11) DEFAULT NULL,
+  `dt_criacao` datetime DEFAULT NULL,
+  `dt_atualizacao` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Fazendo dump de dados para tabela `estabelecimentos`
+--
+
+INSERT INTO `estabelecimentos` (`id`, `nome`, `email`, `endereco`, `fone`, `zap`, `cnpj`, `admin_id`, `dt_criacao`, `dt_atualizacao`) VALUES
+(12, 'Mateus Supermercados', 'mateus04@gmail.com', 'Av Guajajaras , São Cristovão n34', '98932439876', '98988233307', '76790123035', 52, '2020-04-17 16:33:52', '2020-04-17 16:33:52'),
+(13, 'Mateus Supermercados', 'mateus09@gmail.com', 'Av Guajajaras , São Cristovão n34', '98932439876', '98988233307', '76790123033', 54, '2020-04-17 16:44:12', '2020-04-17 16:44:12');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `niveis`
+--
+
+CREATE TABLE `niveis` (
+  `id` int(11) NOT NULL,
+  `descricao` varchar(35) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Fazendo dump de dados para tabela `niveis`
+--
+
+INSERT INTO `niveis` (`id`, `descricao`) VALUES
+(1, 'Root'),
+(2, 'Administrador'),
+(3, 'Comprador');
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `produtos`
 --
 
@@ -258,7 +319,7 @@ INSERT INTO `produtos` (`codigo`, `nome`, `categoria_id`, `pcusto`, `pvenda`, `e
 (11, 'Shampoo', 3, 2, 4.75, 2),
 (12, 'Creme Dental', 3, 1, 2, 0),
 (13, 'Desodorante', 3, 2.25, 4.5, 10),
-(14, 'Sabonete', 3, 0.4, 1.25, 12),
+(14, 'Sabonete', 3, 0.4, 1.25, 9),
 (15, 'Papel Higiênico', 3, 0.5, 1.5, 0),
 (16, 'Sabão em Pedra', 4, 0.75, 1.55, 8),
 (17, 'Detergente Líquido', 4, 0.8, 1.85, 16),
@@ -270,6 +331,34 @@ INSERT INTO `produtos` (`codigo`, `nome`, `categoria_id`, `pcusto`, `pvenda`, `e
 (23, 'Condicionador', 3, 2.15, 4.75, 25),
 (24, 'Nescau', 2, 1, 2, 50),
 (25, 'Sabonete Líquido', 3, 1.1, 2.5, 21);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(100) DEFAULT NULL,
+  `email` varchar(30) DEFAULT NULL,
+  `user_name` varchar(30) DEFAULT NULL,
+  `passwd` varchar(32) DEFAULT NULL,
+  `fone` varchar(14) DEFAULT NULL,
+  `zap` varchar(14) DEFAULT NULL,
+  `tipo_id` int(11) DEFAULT NULL,
+  `dt_criacao` datetime DEFAULT NULL,
+  `dt_atualizacao` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Fazendo dump de dados para tabela `users`
+--
+
+INSERT INTO `users` (`id`, `nome`, `email`, `user_name`, `passwd`, `fone`, `zap`, `tipo_id`, `dt_criacao`, `dt_atualizacao`) VALUES
+(52, 'Renato Rodrigues', 'rodriguesrenato61@gmail.com', 'rodriguesrenato61', '202cb962ac59075b964b07152d234b70', '98988258639', '98999812283', 2, '2020-04-17 15:33:22', '2020-04-17 15:33:22'),
+(53, 'Renato Rodrigues', 'rodriguesrenato80@gmail.com', 'rodriguesrenato61', '202cb962ac59075b964b07152d234b70', '98988258639', '98999812283', 3, '2020-04-17 16:36:12', '2020-04-17 16:36:12'),
+(54, 'Renato Rodrigues', 'rodriguesrenato69@gmail.com', 'rodriguesrenato61', '202cb962ac59075b964b07152d234b70', '98988258639', '98999812283', 2, '2020-04-17 16:43:47', '2020-04-17 16:43:47');
 
 -- --------------------------------------------------------
 
@@ -323,7 +412,8 @@ INSERT INTO `vendas` (`id`, `produto_nome`, `categoria_nome`, `carrinho_id`, `pv
 (124, 'Suco Pronto', 'Bebidas', 11, 4.5, 2, 1, '2020-04-13 17:27:27', 9),
 (125, 'Sabão em Pedra', 'Limpeza', 11, 1.55, 0.75, 3, '2020-04-13 17:27:36', 16),
 (127, 'Desodorante', 'Higiene', 11, 4.5, 2.25, 3, '2020-04-13 17:28:06', 13),
-(128, 'Amaciante', 'Limpeza', 11, 3.25, 1.15, 5, '2020-04-13 17:28:19', 18);
+(128, 'Amaciante', 'Limpeza', 11, 3.25, 1.15, 5, '2020-04-13 17:28:19', 18),
+(129, 'Sabonete', 'Higiene', 11, 1.25, 0.4, 3, '2020-04-14 13:58:17', 14);
 
 -- --------------------------------------------------------
 
@@ -339,6 +429,25 @@ CREATE TABLE `vw_carrinhos` (
 ,`dia` varchar(10)
 ,`hora` time
 ,`dt` date
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura stand-in para view `vw_mercados`
+-- (Veja abaixo para a visão atual)
+--
+CREATE TABLE `vw_mercados` (
+`id` int(11)
+,`mercado` varchar(70)
+,`email` varchar(30)
+,`endereco` varchar(100)
+,`cnpj` varchar(11)
+,`fone` varchar(11)
+,`zap` varchar(11)
+,`admin_id` int(11)
+,`admninistrador` varchar(100)
+,`admin` varchar(30)
 );
 
 -- --------------------------------------------------------
@@ -376,9 +485,10 @@ CREATE TABLE `vw_vendas` (
 ,`total_venda` double
 ,`lucro` double
 ,`venda_status` varchar(10)
-,`dt_criacao` datetime
 ,`data_venda` date
+,`dia` varchar(10)
 ,`hora` time
+,`dt_criacao` datetime
 );
 
 -- --------------------------------------------------------
@@ -389,6 +499,15 @@ CREATE TABLE `vw_vendas` (
 DROP TABLE IF EXISTS `vw_carrinhos`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_carrinhos`  AS  select `carrinhos`.`id` AS `id`,`count_produtos`(`carrinhos`.`id`) AS `produtos`,`carrinhos`.`status_carrinho` AS `status_carrinho`,`total`(`carrinhos`.`id`) AS `total_compra`,date_format(`carrinhos`.`dt_criacao`,'%d/%m/%Y') AS `dia`,cast(`carrinhos`.`dt_criacao` as time) AS `hora`,cast(`carrinhos`.`dt_criacao` as date) AS `dt` from `carrinhos` ;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para view `vw_mercados`
+--
+DROP TABLE IF EXISTS `vw_mercados`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_mercados`  AS  select `estabelecimentos`.`id` AS `id`,`estabelecimentos`.`nome` AS `mercado`,`estabelecimentos`.`email` AS `email`,`estabelecimentos`.`endereco` AS `endereco`,`estabelecimentos`.`cnpj` AS `cnpj`,`estabelecimentos`.`fone` AS `fone`,`estabelecimentos`.`zap` AS `zap`,`estabelecimentos`.`admin_id` AS `admin_id`,`users`.`nome` AS `admninistrador`,`users`.`user_name` AS `admin` from (`estabelecimentos` join `users` on(`estabelecimentos`.`admin_id` = `users`.`id`)) ;
 
 -- --------------------------------------------------------
 
@@ -406,7 +525,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `vw_vendas`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_vendas`  AS  select `vendas`.`id` AS `id`,`vendas`.`produto_codigo` AS `codigo`,`vendas`.`produto_nome` AS `produto`,`vendas`.`categoria_nome` AS `categoria`,`vendas`.`carrinho_id` AS `carrinho_id`,`vendas`.`pvenda` AS `pvenda`,`vendas`.`pcusto` AS `pcusto`,`vendas`.`unidades` AS `unidades`,`vendas`.`unidades` * `vendas`.`pcusto` AS `total_custo`,`vendas`.`unidades` * `vendas`.`pvenda` AS `total_venda`,`vendas`.`unidades` * `vendas`.`pvenda` - `vendas`.`unidades` * `vendas`.`pcusto` AS `lucro`,`status_venda`(`vendas`.`carrinho_id`) AS `venda_status`,`vendas`.`dt_criacao` AS `dt_criacao`,cast(`vendas`.`dt_criacao` as date) AS `data_venda`,cast(`vendas`.`dt_criacao` as time) AS `hora` from `vendas` ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `vw_vendas`  AS  select `vendas`.`id` AS `id`,`vendas`.`produto_codigo` AS `codigo`,`vendas`.`produto_nome` AS `produto`,`vendas`.`categoria_nome` AS `categoria`,`vendas`.`carrinho_id` AS `carrinho_id`,`vendas`.`pvenda` AS `pvenda`,`vendas`.`pcusto` AS `pcusto`,`vendas`.`unidades` AS `unidades`,`vendas`.`unidades` * `vendas`.`pcusto` AS `total_custo`,`vendas`.`unidades` * `vendas`.`pvenda` AS `total_venda`,`vendas`.`unidades` * `vendas`.`pvenda` - `vendas`.`unidades` * `vendas`.`pcusto` AS `lucro`,`status_venda`(`vendas`.`carrinho_id`) AS `venda_status`,cast(`vendas`.`dt_criacao` as date) AS `data_venda`,date_format(`vendas`.`dt_criacao`,'%d/%m/%Y') AS `dia`,cast(`vendas`.`dt_criacao` as time) AS `hora`,`vendas`.`dt_criacao` AS `dt_criacao` from `vendas` ;
 
 --
 -- Índices de tabelas apagadas
@@ -425,11 +544,31 @@ ALTER TABLE `categorias`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices de tabela `estabelecimentos`
+--
+ALTER TABLE `estabelecimentos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `admin_id` (`admin_id`);
+
+--
+-- Índices de tabela `niveis`
+--
+ALTER TABLE `niveis`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Índices de tabela `produtos`
 --
 ALTER TABLE `produtos`
   ADD PRIMARY KEY (`codigo`),
   ADD KEY `categoria_id` (`categoria_id`);
+
+--
+-- Índices de tabela `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `tipo_id` (`tipo_id`);
 
 --
 -- Índices de tabela `vendas`
@@ -452,24 +591,51 @@ ALTER TABLE `carrinhos`
 ALTER TABLE `categorias`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
+-- AUTO_INCREMENT de tabela `estabelecimentos`
+--
+ALTER TABLE `estabelecimentos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+--
+-- AUTO_INCREMENT de tabela `niveis`
+--
+ALTER TABLE `niveis`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
   MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 --
+-- AUTO_INCREMENT de tabela `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+--
 -- AUTO_INCREMENT de tabela `vendas`
 --
 ALTER TABLE `vendas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
 --
 -- Restrições para dumps de tabelas
 --
+
+--
+-- Restrições para tabelas `estabelecimentos`
+--
+ALTER TABLE `estabelecimentos`
+  ADD CONSTRAINT `estabelecimentos_ibfk_1` FOREIGN KEY (`admin_id`) REFERENCES `users` (`id`);
 
 --
 -- Restrições para tabelas `produtos`
 --
 ALTER TABLE `produtos`
   ADD CONSTRAINT `produtos_ibfk_1` FOREIGN KEY (`categoria_id`) REFERENCES `categorias` (`id`);
+
+--
+-- Restrições para tabelas `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_ibfk_1` FOREIGN KEY (`tipo_id`) REFERENCES `niveis` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

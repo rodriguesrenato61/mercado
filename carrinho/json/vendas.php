@@ -8,24 +8,34 @@
 	switch($opcao){
 		
 		case "index":
-			/* http://localhost/carrinho/json/vendas.php?opcao=index&id=2&status=0 */
+			/* http://localhost/carrinho/json/vendas.php?opcao=index&id=&status=&page=1 */
 			$carrinho_id = $_GET['id'];
 			$status = $_GET['status'];
+			$inicio = $_GET['inicio'];
+			$fim = $_GET['fim'];
+			$page = $_GET['page'];
 			
-			$rows = $vendas->index($carrinho_id, $status);
+			$rows = $vendas->index($carrinho_id, $status, $inicio, $fim, $page);
 			
 			while($row = $rows->fetch()){
 				$registros[] = array(
 					"id" => $row['id'],
 					"codigo" => $row['codigo'],
 					"produto" => $row['produto'],
-					"pvenda" => $row['pvenda'],
+					"preco" => number_format((float) $row['pvenda'], 2, ',', '.'),
 					"unidades" => $row['unidades'],
-					"total_venda" => $row['total_venda']
+					"total" => number_format((float) $row['total_venda'], 2, ',', '.'),
+					"dia" => $row['dia'],
+					"hora" => $row['hora']
 				);
 			}
 			
-			echo(json_encode($registros));
+			$json_array[] = array(
+				"registros" => $registros,
+				"total" => $vendas->getTotalRegistros()
+			);
+			
+			echo(json_encode($json_array));
 		break;
 		
 		case "get":
@@ -36,7 +46,7 @@
 				"id" => $row['id'],
 				"codigo" => $row['codigo'],
 				"produto" => $row['produto'],
-				"preco" => $row['pvenda'],
+				"preco" => number_format((float) $row['pvenda'], 2, ',', '.'),
 				"unidades" => $row['unidades'],
 			);
 			

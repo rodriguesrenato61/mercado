@@ -10,8 +10,9 @@
 		case "index":
 			$inicio = $_GET['inicio'];
 			$fim = $_GET['fim'];
+			$page = $_GET['page'];
 			
-			$sql = $carrinho->index($inicio, $fim, null);
+			$sql = $carrinho->index($inicio, $fim, $page);
 			
 			while($row = $sql->fetch()){
 				$registros[] = array(
@@ -24,7 +25,12 @@
 				);
 			}
 			
-			echo json_encode($registros);
+			$retorno[] = array(
+				"registros" => $registros,
+				"total" => $carrinho->getTotal()
+			);
+			
+			echo json_encode($retorno);
 		
 		break;
 		

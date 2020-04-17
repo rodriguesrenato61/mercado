@@ -1,0 +1,76 @@
+1 - Objetivo
+O projeto aqui descrito tem o objetivo de oferecer um meio de realizar compras online de
+supermercado e auxiliar os estabelecimentos em operações de gestão e controle dessas
+vendas. 
+2 - Usuários
+Tipos de usuário que terão acesso ao sistema e o nível de acesso de cada um.
+2.1 - Root
+Usuário que terá permissão de realizar toda e qualquer operação no sistema.
+2.2 - Administrador
+Usuário que terá permissão de realizar toda e qualquer operação que diz respeito aos 
+mercados que ele possui.
+2.3 - Comprador
+Usuário que terá permissão de realizar compras de produtos disponibilizados pelos 
+mercados. 
+
+3 - Funcionalidades
+As funcionalidades que o sistema irá possuir são realizadas de acordo com o nível de 
+acesso do usuário.
+3.1 - Login
+Meio pelo qual o usuário tem acesso ao sistema. Ele necessita do email ou nome e senha
+para logar
+
+3.2 - Usuário
+3.2.1 - Cadastrar comprador
+Cadastra um novo comprador. Dados: nome, nome de usuário (apelido), email, senha, 
+nível de acesso (comprador), fone, zap.
+3.2.2 - Cadastrar administrador
+Cadastra um novo administrador de mercado. Dados: nome, nome de usuário (apelido), email, senha, 
+nível de acesso (administrador), fone, zap, mercado (nome, endereço, fone, email, zap).
+Qualquer pessoa que deseja utilizar o sistema poderá se cadastrar como comprador.
+3.2.3 - Cadastrar funcionário
+Cadastra um novo funcionário e define seu nível de acesso em um mercado. Somente o
+adminstrador do mercado tem acesso a essa funcionalidade. Dados: nome, 
+nome de usuário (apelido), email, fone, zap, senha, nível de acesso.
+
+3.3 - Produto
+3.3.1 - Cadastrar produto
+Cadastra um novo produto no mercado, somente o administrador tem acesso a essa funcionalidade.
+Dados: codigo, nome, categoria, preço de custo, preço de venda e estoque.
+3.3.2 - Atualizar produto
+Atualiza os dados do produto, somente o administrador tem acesso a essa funcionalidade.
+3.3.3 - Excluir produto
+Exclui um produto do mercado, somente o administrador tem acesso a essa funcionalidade.
+3.3.4 - Visualizar dados dos produtos
+Visualiza os dados de todos os produtos de determinado mercado, somente o administrador tem acesso
+a essa funcionalidade. Além de poder filtrar os produtos por código, nome e categoria.
+
+3.4 - Vendas
+3.4.1 - Visualizar vendas
+Visualiza os dados das vendas de determinado supermercado, somente o administrador e o
+funcionário com função de caixa possuem acesso a essa funcionalidade. O administrador terá
+permissão para visualizar todas as vendas do seu mercado, enquanto o funcionário caixa só
+terá permissão para visualizar as vendas que ele fez. Além de poder filtrar as vendas por intervalo
+de datas e produto.
+
+3.5 - Carrinhos
+Dados: id, status, quantidade de produtos, usuário que fez, mercado ao qual pertence.
+3.5.1 - Visualizar carrinhos
+Visualiza os dados dos carrinhos de determinado supermercado, somente o administrador, o
+funcionário com função de caixa e o usuário comprador possuem acesso a essa funcionalidade. 
+O administrador terá permissão para visualizar todos os carrinhos do seu mercado, enquanto o 
+funcionário caixa e o comprador só terão permissão para visualizar os carrinhos que eles fizeram. 
+Além de poder filtrar as vendas por intervalo de datas e produto.
+3.5.2 - Atualizar carrinho
+Atualiza os dados de um carrinho, fazendo a adição ou remoção de produtos de um carrinho que
+esteja com o status "Em andamento", somente o funcionário caixa e o usuário comprador possuem
+acesso a essa funcionalidade.
+3.5.3 - Excluir carrinho
+Exclui um carrinho do sistema, somente o funcionário caixa e o usuário comprador possuem acesso
+a essa funcionalidade. Um carrinho só poderá ser excluído se seu status for "Em andamento", a sua
+exclusão implicará na devolução ao estoque de todos os produtos que estavam registrados nele.
+
+3.6 - Compras
+3.6.1 - Visualizar compras
+Visualiza as compras feitas por determinado usuário, somente o usuário comprador terá acesso a essa
+funcionalidade.

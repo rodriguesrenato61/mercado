@@ -33,11 +33,11 @@
 	font-size: 20px;
 }
 		
-.carrinhos-container{
+.vendas-container{
 	margin-top: 80px;
 }
 		
-.carrinhos-container form input{
+.vendas-container form input{
 	height: 40px;
 	float: left;
 	margin-right: 10px;
@@ -63,31 +63,26 @@ button.btn-buscar{
 	margin-bottom: 20px;
 }
 
-.btn-novo{
-	float: right;
-	font-size: 20px;
-	height: 43px;
-}
 
-.carrinhos-list{
+.vendas-list{
 	padding-top: 80px;
 }
 		
-.carrinhos-items{ 
+.vendas-items{ 
 	width: 100%;
 	height: 250px;
 	overflow: auto;
 }
 
-#carrinhos-table{
+#vendas-table{
 	width: 100%;
 }
 
-#carrinhos-table th{
+#vendas-table th{
 	font-size: 22px;
 }
 
-#carrinhos-table td{
+#vendas-table td{
 	text-align: center;
 	font-size: 22px;
 }
@@ -121,3 +116,8 @@ a.seta{
 	text-decoration: none;
 	color: green;
 }
+
+
+
+
+
