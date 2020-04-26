@@ -1,0 +1,76 @@
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		
+		div.container{
+			width: 60%;
+			margin: 0 auto;
+			height: 1000px;
+		}
+		
+		div.login-container{
+			width: 70%;
+			margin-left: auto;
+			margin-right: auto;
+			margin-top: 50px;
+			height: 400px;
+			background-color: #D8D8D8;
+		}
+		
+		div.login-head{
+			width: 100%;
+			height: 50px;
+			background-color: #BDBDBD;
+		}
+		
+		div.login-head h2{
+			margin-left: 10px;
+			font-size: 30px;
+			line-height: 50px;
+		}
+		
+		div.login-body{
+			width: 90%;
+			margin: 0 auto;
+			height: 345px;
+		}
+		
+		#user{
+			width: 100%;
+			height: 50px;
+			margin-top: 40px;
+			font-size: 25px;
+		}
+		
+		#password{
+			width: 100%;
+			height: 50px;
+			margin-top: 30px;
+			font-size: 25px;
+		}
+		
+		div.div-button{
+			width: 65%;
+			height: 50px;
+			margin-left: auto;
+			margin-right: auto;
+			margin-top: 30px;
+		}
+		
+		#btn-login{
+			width: 100%;
+			height: 100%;
+			font-size: 26px;
+		}
+		
+		div.cadastrar{
+			width: 100%;
+			margin-top: 30px;
+			text-align: center;
+		}
+		
+		div.cadastrar p{
+			font-size: 20px;
+		}
+		

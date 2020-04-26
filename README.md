@@ -1,9 +1,12 @@
 # Mercado
-Esta aplicação realiza operações de venda para um mercado. Por enquanto esta aplicação ainda está em desenvolvimento, os layouts aqui apresentados são somente para teste das funcionalidades em desenvolvimento, estarei melhorando ao passar do tempo. Feita com Php e MySQL, podemos importar o banco de dados que está no arquivo carrinho/app/database/mercado2.sql e alterar as configurações de conexão do banco na mesma pasta no arquivo connection.php.
+Esta aplicação realiza operações de venda para um mercado. Por enquanto esta aplicação ainda está em desenvolvimento, os layouts aqui apresentados são somente para teste das funcionalidades em desenvolvimento, estarei melhorando ao passar do tempo. Feita com Php e MySQL, podemos importar o banco de dados que está no arquivo carrinho/app/database/mercado2.sql e alterar as configurações de conexão do banco na mesma pasta no arquivo connection.php. Algumas páginas estão protegidas, sendo acessadas somente por login, para logar utilize o usuário rodriguesrenato61 e a senha 123.
+
+## Login
+
 
 ## Criando carrinho
 
-![criando carrinho](https://github.com/rodriguesrenato61/mercado/blob/master/prints/print01.png)
+![criando carrinho](https://github.com/rodriguesrenato61/mercado/blob/master/prints/novoCarrinho.png)
 
 ## Exibindo produtos
 
@@ -13,28 +16,24 @@ Esta aplicação realiza operações de venda para um mercado. Por enquanto esta
 
 ![exibindo carrinhos](https://github.com/rodriguesrenato61/mercado/blob/master/prints/carrinhos.png)
 
+## Home
+
+![exibindo home](https://github.com/rodriguesrenato61/mercado/blob/master/prints/home.png)
+
+## Registrando venda
+
+![registrando venda](https://github.com/rodriguesrenato61/mercado/blob/master/prints/registraVenda.png)
+
 ## Exibindo vendas
 
 ![exibindo vendas](https://github.com/rodriguesrenato61/mercado/blob/master/prints/vendas.png)
 
-## Cadastrando usuário
+## Exibindo usuários
 
-![exibindo carrinhos](https://github.com/rodriguesrenato61/mercado/blob/master/prints/cadastrar_user.png)
+![exibindo usuários](https://github.com/rodriguesrenato61/mercado/blob/master/prints/usuarios.png)
 
-## Cadastrar mercado
+## Deletando usuário
 
-![exibindo carrinhos](https://github.com/rodriguesrenato61/mercado/blob/master/prints/cadastrar_mercado.png)
-
-## Códigos
-
-![classe Database](https://github.com/rodriguesrenato61/mercado/blob/master/prints/codigoPrint02.png)
-
-![javascript](https://github.com/rodriguesrenato61/mercado/blob/master/prints/codigoPrint03.png)
-
-![banco de dados](https://github.com/rodriguesrenato61/mercado/blob/master/prints/bancoPrint01.png)
-
-
-
-
+![deletando usuário](https://github.com/rodriguesrenato61/mercado/blob/master/prints/deleteUsuario.png)
 
 

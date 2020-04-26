@@ -1,0 +1,30 @@
+/*estilização padrão do paginate */
+.paginate{
+	padding-left: 20px;
+	padding-right: 20px;
+	width: 30%; 
+	margin: 30px auto;
+	height: 50px;
+	background-color: #D8D8D8;
+	line-height: 50px;
+	text-align: center;
+}
+
+.paginate h2{
+	font-size: 30px;
+}
+
+a.comum{
+	text-decoration: none;
+	color: black;
+}
+		
+a.escolhido{
+	text-decoration: none;
+	color: blue;
+}
+
+a.seta{
+	text-decoration: none;
+	color: green;
+}

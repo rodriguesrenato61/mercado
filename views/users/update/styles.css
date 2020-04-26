@@ -1,0 +1,138 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+
+div.container{
+	width: 60%;
+	margin: 0 auto;
+}
+
+
+
+div.user-container{
+	width: 70%;
+	height: 570px;
+	margin: 50px auto;
+	background-color: #D8D8D8;
+}
+
+div.user-head{
+	width: 100%;
+	height: 50px;
+	background-color: #BDBDBD;
+}
+
+div.user-head h2{
+	font-size: 32px;
+	line-height: 50px;
+	margin-left: 10px;
+}
+
+div.user-body{
+	width: 95%;
+	margin: 0 auto;
+	height: 510px;
+}
+
+div.user-body input, select{
+	height: 40px;
+	display: block;
+	font-size: 27px;
+	margin-top: 10px;
+}
+
+#nome{
+	width: 90%;
+}
+
+#email{
+	width: 70%;
+}
+
+#tipo{
+	width: 70%;
+}
+
+#user_name{
+	width: 70%;
+}
+
+#fone{
+	width: 60%;
+}
+
+#zap{
+	width: 60%;
+}
+
+#passwd{
+	width: 70%;
+}
+
+#passwd2{
+	width: 70%;
+}
+
+.div-button{
+	width: 50%;
+	margin: 20px auto;
+}
+
+.div-button button{
+	width: 100%;
+	height: 40px;
+	font-size: 27px;
+}
+
+div.modal-fundo{
+	width: 100%;
+	height: 100%;
+	background-color: black;
+	opacity: 0.4;
+	position: fixed;
+	top: 0px;
+	display: none;
+}
+
+div.modal-meio{
+	width: 100%;
+	position: fixed;
+	display: none;
+}
+
+div.modal-box{
+	width: 50%;
+	margin: 0 auto;
+	height: 300px;
+	background-color: #FFF;
+}
+
+div.modal-head{
+	width: 100%;
+	height: 50px;
+	background-color: red;
+}
+
+div.modal-head h2{
+	font-size: 32px;
+	float: left;
+	line-height: 50px;
+	margin-left: 10px;
+}
+
+div.modal-head button{
+	float: right;
+	width: 50px;
+	height: 50px;
+	font-size: 32px;
+}
+
+#ul-erros{
+	font-size: 25px;
+	margin-top: 10px;
+}
+
+#ul-erros li{
+	margin-left: 40px;
+}
