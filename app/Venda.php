@@ -6,50 +6,38 @@
 	class Venda{
 	
 		private $pdo, $total;
-		private $produto;
+		private $produto, $msg;
 		public $query_string;
 		
 		public function __construct(){
 			global $connection;
 			$this->pdo = $connection->getPdo();
 			$this->produto = new Produto();
+			$this->msg = new Mensagem;
 		}
 		
 		
 		public function create($carrinho_id, $codigo, $unidades){
 			
+			global $connection;
+			
 			$row = $this->produto->get($codigo);
+			
 			$estoque = (int) $row['estoque'];
 		
 			if($unidades <= $estoque){
 				
-				$sql = $this->pdo->prepare("CALL registrar_venda(:i, :c, :u)");
-				$sql->bindValue(":i", (int) $carrinho_id);
-				$sql->bindValue(":c", (int) $codigo);
-				$sql->bindValue(":u", (int) $unidades);
-			
-				try{
-					$sql->execute();
-					$retorno[] = array(
-						"type" => true,
-						"msg" => "Venda criada com sucesso!"
-					);
-				}catch(Exception $e){
-					$retorno[] = array(
-						"type" => false,
-						"msg" => "Erro ao registrar venda!"
-					);
-				}
+				$result = $connection->insert_venda($carrinho_id, $codigo, $unidades);
+				
+				$this->msg->set($result[0]['tipo'], $result[0]['msg']);
 			
 			}else{
 			
-				$retorno[] = array(
-					"type" => false,
-					"msg" => "Erro, estoque insuficiente!"
-				);
+				$this->msg->set(false, "Erro, estoque insuficiente!");
+				
 			}
 			
-			return $retorno;
+			return $this->msg->get();
 		}
 	
 		public function index($carrinho_id, $status, $inicio, $fim, $page){
@@ -199,18 +187,11 @@
 		}
 		
 		public function delete($carrinho_id, $codigo){
-			$sql = $this->pdo->prepare("CALL delete_venda(:c, :p)");
-			$sql->bindValue(":c", (int) $carrinho_id);
-			$sql->bindValue(":p", (int) $codigo);
+			global $connection;
 			
-			try{
-				$sql->execute();
-				$registro[] = array("msg" => 1);
-			}catch(Exception $e){
-				$registro[] = array("msg" => 0);
-			}
+			$result = $connection->delete_venda($carrinho_id, $codigo);
 			
-			return json_encode($registro);
+			return $result;
 		}
 		
 		public function setTotal($query){

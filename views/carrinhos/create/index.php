@@ -1,103 +1,93 @@
+<?php
+
+	require_once("../../../app/User.php");
+	require_once("../../html/funcoes.php");
+	
+	$user = new User();
+	
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 	<head>
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-		<link rel="stylesheet" href="styles.css">
 		<link rel="stylesheet" href="../../../css/modal.css">
+		<link rel="stylesheet" href="../../../css/navbar.css">
+		<link rel="stylesheet" href="../../../css/mensagem.css">
+		<link rel="stylesheet" href="styles.css">
 		<title>Carrinho</title>
 	</head>
 	<body>
-		<div class="modal" id="modal">
-		</div>
-		<div class="modal-meio" id="modal-meio">
-			<div class="modal-box" id="modal-box">
-				<div class="modal-body" id="modal-body">
-					<div class="modal-produto modal-imagem">
-						Imagem
-					</div>
-					<div class="modal-produto dados">
-						<div class="modal-dados" id="modal-dados">
-						
-						</div>
-						<div class="modal-bottom">
-							<input type="number" class="modal-unidades" id="unidades" placeholder="unidades">
-							<button class="modal-btn" id="modal-fechar">Cancelar</button>
-							<button class="modal-btn" id="registrar">Registrar</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
 		
-		<div class="modal-editar" id="modal-editar">
-		</div>
-		<div class="modal-meio" id="modal-meio">
-			<div class="modal-box" id="modal-box-editar">
-				<div class="modal-body" id="modal-body">
-					<div class="modal-produto modal-imagem">
-						Imagem
-					</div>
-					<div class="modal-produto dados">
-						<div class="modal-dados" id="modal-dados-editar">
-						
-						</div>
-						<div class="modal-bottom">
-							<input type="hidden" id="id_venda">
-							<input type="number" class="modal-unidades" id="unidades-editar" placeholder="unidades">
-							<button class="modal-btn" id="modal-editar-fechar">Cancelar</button>
-							<button class="modal-btn" id="salvar">Salvar</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		<?php
+		
+			if(isset($_GET['id'])){
+				$carrinho_id = $_GET['id'];
+				echo("<input type='hidden' name='carrinho_id' id='carrinho_id' value='".$carrinho_id."'>");
+			}
+		
+		?>
+		
+		<?php 
+			criarModal("carrinho editar venda");
+			criarModal("delete venda");
+		 ?>
 		
 		
 		<div class="container">
-			<nav class="nav-superior">
-				<ul>
-					<li>
-						<a href="../../carrinhos/index/index.php">
-							CARRINHOS
-						</a>
-					</li>
-					<li>
-						<a href="../../vendas/index/index.php?page=1">
-							VENDAS
-						</a>
-					</li>
-					<li>
-						<a href="../../produtos/index/">
-							PRODUTOS
-						</a>
-					</li>
-				</ul>
-			</nav>
+			<?php navbar(); ?>
+			<?php mensagem(); ?>
 			<div class="carrinho-container">
-				<form id="form-procurar">
-					<input class="barcode" type="text" name="barcode" id="barcode" placeholder="barcode">
-					<button class="procurar" id="procurar" type="submit">Buscar</button>
-				</form>
-				
-				<input type="hidden" name="id" id="id" value="<?php echo($_GET['id']); ?>">
-
-				<div class="items" id="items">
+				<div class="container1">
+					<div class="produto-container">
+						<div class="form-pesquisar">
+							<form id="pesquisar-produto">
+								<input type="number" name="barcode" id="barcode" placeholder="código do produto">
+								<button type="submit" class="pesquisar">buscar</button>
+							</form> <!-- id pesquisar-produto -->
+						</div> <!-- class form-pesquisar -->
+						<div class="produto-info" id="produto-info">
+							<div class="produto-imagem">
+								<img alt="imagem do produto">
+							</div> <!-- class produto-imagem -->
+							<div class="produto-encontrado">
+								<div class="produto-dados" id="produto-dados">
+									<strong>Código: </strong> 0001<br>
+									<strong>Produto: </strong> Margarina<br>
+									<strong>Categoria: </strong> Alimentos<br>
+									<strong>Preço: </strong> R$ 3,00<br>
+									<strong>Estoque: </strong> 23<br>
+								</div> <!-- class produto-dados -->
+							</div> <!-- class produto-encontrado -->
+						</div> <!-- class produto-info -->
+						<div class="unidades-container" id="unidades-container">
+							<input type="number" name="unidades" id="unidades" placeholder="unidades">
+							<button id="btn-adicionar">Adicionar</button>
+						</div> <!-- class unidades-container -->
+					</div> <!-- class produto-container -->
 					
+					<div class="total-container" id="total-container">
+						<strong>Produtos: </strong>0<br>
+						<strong>Total: </strong>R$ 00,00<br>
+					</div> <!-- class total-container -->
+					<div class="finalizar-container">
+						<button id="btn-finalizar">Finalizar</button>
+					</div> <!-- class finalizar-container -->
+				</div> <!-- class container1 -->
+				<div class="container2">
+					<div class="carrinho-table">
+						<table id="items">
+							
+						</table>
+					</div> <!-- class carrinho-table -->
 				</div>
-				<div class="total-item">
-					<div class="total-container" id="total">
-				 
-					</div>
-					<button class="btn-finalizar" id="finalizar">Finalizar</button>
-				</div>
-			
-			</div>
-		<script src="../../../js/modal.js"></script>
+			</div> <!-- class carrinho-container -->
+		</div> <!-- class container -->
 		<script src="../../../js/rota.js"></script>
+		<script src="../../../js/modal.js"></script>
+		<script src="../../../js/venda.js"></script>
+		<script src="../../../js/carrinho.js"></script>
 		<script src="scripts.js"></script>
 	</body>
 </html>
-
-

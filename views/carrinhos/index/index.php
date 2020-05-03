@@ -1,6 +1,7 @@
 <?php
 
 	require_once("../../../app/User.php");
+	require_once("../../html/funcoes.php");
 	
 	$user = new User();
 	
@@ -12,9 +13,13 @@
 	<head>
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="styles.css">
+		<link rel="stylesheet" href="../../../css/modal.css">
+		<link rel="stylesheet" href="../../../css/mensagem.css">
 		<title>Carrinhos</title>
 	</head>
 	<body>
+		
+		<?php criarModal("delete carrinho"); ?>
 		
 		<div class="container">
 			
@@ -25,6 +30,9 @@
 					</li>
 					<li>
 						<a href="../../produtos/index/index.php?page=1">PRODUTOS</a>
+					</li>
+					<li>
+						<a href="../../homes/admin/index.php">HOME</a>
 					</li>
 				</ul>
 			</nav>
@@ -46,6 +54,9 @@
 					</form>
 					<button class="btn-novo" id="btn-novo">New</button>
 				</div> <!-- class pesquisar -->
+				
+				<?php mensagem(); ?>
+				
 				<div class="carrinhos-list">
 					<div class="carrinhos-items">
 						<table border="1px" id="carrinhos-table">
@@ -68,5 +79,9 @@
 		</div> <!-- class container -->
 	</body>
 	<script src="../../../js/rota.js"></script>
+	<script src="../../../js/mensagem.js"></script>
+	<script src="../../../js/carrinho.js"></script>
+	<script src="../../../js/modal.js"></script>
+	<script src="../../../js/paginate.js"></script>
 	<script src="scripts.js"></script>
 </html>

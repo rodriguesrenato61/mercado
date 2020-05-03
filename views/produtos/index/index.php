@@ -1,6 +1,7 @@
 <?php
 
 	require_once("../../../app/User.php");
+	require_once("../../html/funcoes.php");
 	
 	$user = new User();
 	
@@ -13,70 +14,16 @@
 	<head>
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="styles.css">
+		<link rel="stylesheet" href="../../../css/modal.css">
+		<link rel="stylesheet" href="../../../css/mensagem.css">
 		<title>Produtos</title>
 	</head>
 	<body>
 		
-		<div class="modal-fundo" id="modal-fundo">
-		</div> <!-- class modal-fundo -->
-		<div class="modal-meio" id="modal-meio">
-			<div class="modal-box">
-				<div class="modal-body">
-					<div class="modal-items modal-imagem">
-						<div class="imagem" id="imagem">
-							Imagem
-						</div> <!-- class imagem -->
-						<div class="div-btn-imagem">
-							<input type="file" id="carregar" class="btn-imagem" onChange="carregarImagem()">
-						</div> <!-- class div-btn-imagem -->
-					</div> <!-- class modal-items modal-imagem -->
-					<div class="modal-items modal-campos">
-						<input type="number" id="codigo_produto" placeholder="codigo">
-						<input type="text" id="nome_produto" placeholder="produto">
-						<select id="categoria_produto">
-							<option value="0">--Categoria--</option>
-						</select>
-						<input type="number" id="pcusto" placeholder="preço de custo">
-						<input type="number" id="pvenda" placeholder="preço de venda">
-						<input type="number" id="estoque" placeholder="estoque">
-						<div class="div-buttons">
-							<button class="btn-cadastrar" id="btn-cadastrar">cadastrar</button>
-							<button class="btn-cancelar" id="btn-cancelar" onclick="fecharModal()">cancelar</button>
-						</div> <!-- class div-buttons -->
-					</div> <!-- class modal-campos -->
-				</div> <!-- class modal-body -->
-			</div> <!-- class modal-box -->
-		</div> <!-- class modal-meio -->
-		
-		
-		<div class="modal-meio2" id="modal-meio2">
-			<div class="modal-box">
-				<div class="modal-body">
-					<div class="modal-items modal-imagem">
-						<div class="imagem" id="imagem">
-							Imagem
-						</div> <!-- class imagem -->
-						<div class="div-btn-imagem">
-							<input type="file" id="carregar" class="btn-imagem" onChange="carregarImagem()">
-						</div> <!-- class div-btn-imagem -->
-					</div> <!-- class modal-items modal-imagem -->
-					<div class="modal-items modal-campos">
-						<input type="number" id="codigo_produto2" placeholder="codigo" readonly>
-						<input type="text" id="nome_produto2" placeholder="produto">
-						<select id="categoria_produto2">
-							<option value="0">--Categoria--</option>
-						</select>
-						<input type="number" id="pcusto2" placeholder="preço de custo">
-						<input type="number" id="pvenda2" placeholder="preço de venda">
-						<input type="number" id="estoque2" placeholder="estoque">
-						<div class="div-buttons">
-							<button class="btn-cadastrar" id="btn-salvar">salvar</button>
-							<button class="btn-cancelar" id="btn-cancelar2" onclick="fecharModal2()">cancelar</button>
-						</div> <!-- class div-buttons -->
-					</div> <!-- class modal-campos -->
-				</div> <!-- class modal-body -->
-			</div> <!-- class modal-box -->
-		</div> <!-- class modal-meio2 -->
+		<?php 
+			criarModal("criar produto");
+			criarModal("delete produto"); 
+		?>
 		
 		<div class="container">
 			
@@ -87,6 +34,9 @@
 					</li>
 					<li>
 						<a href="../../carrinhos/index/index.php">CARRINHOS</a>
+					</li>
+					<li>
+						<a href="../../homes/admin/index.php">HOME</a>
 					</li>
 				</ul>
 			</nav>
@@ -111,18 +61,23 @@
 					</form>
 					<button class="btn-novo" id="btn-novo">New</button>
 				</div> <!-- class pesquisar -->
+				<?php mensagem(); ?>
 				<div class="produtos-list">
 					<div id="produtos-items">
-					
+						<table border="1" id="produtos-table">
+						</table>
 					</div> <!--id produtos-items -->
-				</div> <!-- class produtos-list -->
-				
-				<div class="paginate" id="paginate">
 				</div>
+				
+				<?php criarPaginacao(); ?>
 				
 			</div> <!-- class produtos-container -->
 		</div> <!-- class container -->
 	</body>
 	<script src="../../../js/rota.js"></script>
+	<script src="../../../js/produto.js"></script>
+	<script src="../../../js/mensagem.js"></script>
+	<script src="../../../js/modal.js"></script>
+	<script src="../../../js/paginate.js"></script>
 	<script src="scripts.js"></script>
 </html>

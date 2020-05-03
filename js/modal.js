@@ -1,117 +1,95 @@
 
-const modal = document.querySelector("#modal");
+const modalFundo = document.querySelector("#modal-fundo");
 
-const modalEditar = document.querySelector("#modal-editar");
+const modalBoxDeleteUser = document.querySelector("#modal-linha-delete-user");
+const modalBodyDeleteUser = document.querySelector("#modal-user-delete-body");
 
-const modalBox = document.querySelector("#modal-box");
+const modalBoxCriarProduto = document.querySelector("#modal-linha-criar-produto");
+const modalHeadCriarProduto = document.querySelector("#modal-head-criar-produto");
 
-const modalBoxEditar = document.querySelector("#modal-box-editar");
+const modalBoxDeletarProduto = document.querySelector("#modal-linha-deletar-produto");
+const modalHeadDeletarProduto = document.querySelector("#modal-head-delete-produto");
+const modalBodyDeletarProduto = document.querySelector("#modal-produto-delete-body");
 
-const modalBody = document.querySelector("#modal-body");
+const modalBoxEditarVenda = document.querySelector("#modal-linha-editar-venda");
+const modalEditarVendaDados = document.querySelector("#modal-vendas-editar-info");
 
-const modalDados = document.querySelector("#modal-dados");
+const modalBoxDeletarCarrinho = document.querySelector("#modal-linha-deletar-carrinho");
+const modalBodyDeletarCarrinho = document.querySelector("#modal-carrinho-delete-body");
 
-const modalDadosEditar = document.querySelector("#modal-dados-editar");
+const modalBoxDeletarVenda = document.querySelector("#modal-linha-deletar-venda");
+const modalBodyDeletarvenda = document.querySelector("#modal-venda-delete-body");
 
-const modalFechar = document.querySelector("#modal-fechar");
-
-function modalShow(barcode){
-	
-	fetch('http://localhost/carrinho/json/produtos.php?opcao=get&codigo='+barcode)
-		
-	.then(function(response){
-			
-		return response.json();
-		
-	}).then(function(response){
-			
-		let html = "";
-		let erro = false;
-				
-		response.forEach(function(produto){
-				
-			if(produto.codigo != null){
-					
-					html += "<strong>Código: </strong>"+produto.codigo+"<br>";
-					html += "<strong>Produto: </strong>"+produto.produto+"<br>";
-					html += "<strong>Categoria: </strong>"+produto.categoria+"<br>";
-					html += "<strong>Preço: </strong>R$ "+produto.pvenda+"<br>";
-					html += "<strong>Estoque: </strong>"+produto.estoque+"<br>";
-					
-			
-			}else{
-				erro = true;
-			}
-				
-		}); 
-		
-		if(!erro){
-			
-			modalDados.innerHTML = html
-			
-			modal.style.display = "block";
-			modalBox.style.display = "block";
-		}else{
-			alert("Produto não encontrado!");
-		}
-		
-	});
-	
+function modalDeleteUserShow(){
+	modalFundo.style.display = "block";
+	modalBoxDeleteUser.style.display = "block";
 }
 
-function modalEditarShow(venda_id){
-	
-	fetch('http://localhost/carrinho/json/vendas.php?opcao=get&id='+venda_id)
-		
-	.then(function(response){
-			
-		return response.json();
-		
-	}).then(function(response){
-			
-		let html = "";
-		let erro = false;
-				
-		response.forEach(function(venda){
-				
-			if(venda.codigo != null){
-			
-					html += "<strong>Código: </strong>"+venda.codigo+"<br>";
-					html += "<strong>Produto: </strong>"+venda.produto+"<br>";
-					html += "<strong>Preço: </strong>R$ "+venda.preco+"<br>";
-					html += "<strong>Unidades: </strong> "+venda.unidades+"<br>";
-					
-			}else{
-				erro = true;
-			}
-				
-		}); 
-		
-		if(!erro){
-			
-			modalDadosEditar.innerHTML = html
-			
-			modalEditar.style.display = "block";
-			modalBoxEditar.style.display = "block";
-			
-		}else{
-			alert("Produto não encontrado!");
-		}
-		
-	});
-	
+function modalDeleteUserClose(){
+	modalFundo.style.display = "none";
+	modalBoxDeleteUser.style.display = "none";
 }
 
-function modalClose(){
-	
-	modal.style.display = "none";
-	modalBox.style.display = "none";
+function modalCriarProdutoShow(){
+	modalHeadCriarProduto.innerHTML = "<h2>CADASTRAR PRODUTO</h2>";
+	modalFundo.style.display = "block";
+	modalBoxCriarProduto.style.display = "block";
 }
 
-function modalEditarClose(){
-	
-	modalEditar.style.display = "none";
-	modalBoxEditar.style.display = "none";
+function modalCriarProdutoClose(){
+	modalFundo.style.display = "none";
+	modalBoxCriarProduto.style.display = "none";
+}
+
+function modalEditarProdutoShow(){
+	modalHeadCriarProduto.innerHTML = "<h2>ATUALIZAR PRODUTO</h2>";
+	modalFundo.style.display = "block";
+	modalBoxCriarProduto.style.display = "block";
+}
+
+function modalEditarProdutoClose(){
+	modalFundo.style.display = "none";
+	modalBoxCriarProduto.style.display = "none";
+}
+
+function modalDeletarProdutoShow(){
+	modalFundo.style.display = "block";
+	modalBoxDeletarProduto.style.display = "block";
+}
+
+function modalDeletarProdutoClose(){
+	modalFundo.style.display = "none";
+	modalBoxDeletarProduto.style.display = "none";
+}
+
+function modalEditarVendaShow(){
+	modalFundo.style.display = "block";
+	modalBoxEditarVenda.style.display = "block";
+}
+
+function modalEditarVendaClose(){
+	modalFundo.style.display = "none";
+	modalBoxEditarVenda.style.display = "none";
+}
+
+function modalDeletarCarrinhoShow(){
+	modalFundo.style.display = "block";
+	modalBoxDeletarCarrinho.style.display = "block";
+}
+
+function modalDeletarCarrinhoClose(){
+	modalFundo.style.display = "none";
+	modalBoxDeletarCarrinho.style.display = "none";
+}
+
+function modalDeletarVendaShow(){
+	modalFundo.style.display = "block";
+	modalBoxDeletarVenda.style.display = "block";
+}
+
+function modalDeletarVendaClose(){
+	modalFundo.style.display = "none";
+	modalBoxDeletarVenda.style.display = "none";
 }
 
 

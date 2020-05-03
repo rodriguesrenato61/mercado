@@ -1,0 +1,27 @@
+div.msg{
+	width: 100%;
+	display: none;
+	background-color: #D8D8D8;
+}
+
+div.msg-head{
+	width: 100%;
+}
+
+div.msg-body{
+	width: 100%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+div.msg-body p{
+	text-align: center;
+	color: #FFF;
+}
+
+a.msg-fechar{
+	float: right;
+	margin-right: 5px;
+	text-decoration: none;
+	color: black;
+}

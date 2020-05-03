@@ -1,84 +1,434 @@
-.modal{
+/*estilização padrão da modal */
+div.modal-fundo{
 	width: 100%;
 	height: 100%;
-	background-color: black;
-	position: absolute;
-	display: none;
-	z-index: 1;
-	opacity: 0.4;
-}
-
-.modal-editar{
-	width: 100%;
-	height: 100%;
-	background-color: black;
 	position: fixed;
-	top: 0px;
+	background-color: black;
+	opacity: 0.4;
 	display: none;
 	z-index: 1;
-	opacity: 0.4;
 }
 
-.modal-meio{
+
+div.modal-head{
 	width: 100%;
-	height: 100px;
+	height: 50px;
+}
+
+div.modal-head h2{
+	margin-left: 10px;
+	line-height: 50px;
+	font-size: 26px;
+}
+
+div.modal-body{
+	width: 95%;
+	margin: 0 auto;
+}
+
+div.modal-body h2{
+	position: relative;
+	top: 10px;
+	font-size: 32px;
+}
+
+div.modal-bottom{
+	height: 35px;
+	margin: 0 auto;
+}
+
+div.modal-bottom button{
+	height: 100%;
+	font-size: 25px;
+}
+
+/*estilização da modal para criar produto */
+
+div.modal-linha-criar-produto{
+	width: 100%;
 	position: fixed;
 	top: 100px;
 	display: none;
 	z-index: 2;
 }
 
-.modal-box{
-	width: 40%;
-	height: 210px;
+div#modal-criar-produto{
+	width: 60%;
+	height: 378px;
 	margin: 0 auto;
 	background-color: #D8D8D8;
-	border-radius: 8px;
 }
 
-.modal-bottom{
-	position: absolute;
-	width: 27%;
+div.modal-head-criar-produto{
+	background-color: blue;
+}
+
+div.modal-head-criar-produto h2{
+	color: #FFF;
+}
+		
+.modal-criar-produto-body{
+	height: 280px;
+}
+		
+.modal-criar-produto-items{
+	height: 100%;
+	float: left;
+}
+		
+.modal-criar-produto-imagem{
+	width: 35%;
+}
+
+div.produto-imagem{
+	width: 80%;
+	height: 160px;
+	border: 1px solid;
+	margin: 10px auto;
+}
+
+div.produto-btn-imagem{		
+	width: 70%;
+	margin: 20px auto;
+}
+		
+.modal-criar-produto-campos{
+	width: 65%;
+}
+		
+input.btn-imagem{
+	width: 100%;
+	height: 30px; 
+	font-size: 18px;
+}
+		
+div.modal-criar-produto-campos input, select{
+	margin-top: 10px;
+	margin-right: 20px;
+	font-size: 18px;
 	height: 30px;
 }
-
-.modal-btn{
-	margin-right: 30px;
-	float: right;
-	height: 34px;
-	background-color: #BDBDBD;
-	cursor: pointer;
-	font-size: 20px;
+		
+div.modal-criar-produto-bottom{
+	width: 45%;	
+}
+		
+div.modal-criar-produto-bottom button{
+	
+	width: 40%;
 }
 
-.modal-produto{
-	margin-top: 15px;
-	height: 180px;
+button.btn-cadastrar{
 	float: left;
 }
 
-.modal-imagem{
-	width: 30%;
-	margin-left: 15px;
+button.btn-cancelar{
+	float: right;
 }
-
-.dados{
-	width: 65%;
+		
+#codigo_produto{
+	width: 40%;
+	
 }
-
-.modal-imagem img{
-	width: 90%;
-	height: 100%;
+		
+#nome_produto{
+	width: 85%;
 }
+		
+#categoria_produto{
+	width: 70%;
+}
+		
+#pcusto{
+	width: 40%;
+}
+		
+#pvenda{
+	width: 40%;
+}
+		
+#estoque{
+	width: 40%;
+}
+		
+		
 
-.modal-dados{
+/*estilização da modal para deletar usuário*/
+
+div.modal-linha-delete-user{
 	width: 100%;
-	font-size: 20px;
-	height: 75%;
+	position: fixed;
+	top: 50px;
+	display: none;
+	z-index: 2;
 }
 
-input.modal-unidades{
-	height: 30px;
+div.modal-user-delete{
+	width: 40%;
+	height: 270px;
+	margin: 0 auto;
+	background-color: #D8D8D8;
+	margin: 0 auto;
+}
+
+div.modal-head-delete-user{
+	background-color: red;
+	color: #FFF;
+}
+
+div.modal-user-delete-body{
+	width: 95%;
+	height: 158px;
+	margin: 0 auto;
+}
+
+div.modal-bottom-delete-user{
+	width: 40%;
+}
+
+button.modal-user-btn-deletar{
+	width: 40%;
+	height: 40px;
+	font-size: 23px;
+	position: relative;
+	top: 2px;
+}
+
+button.modal-user-btn-cancelar{
+	width: 40%;
+	height: 40px;
+	font-size: 23px;
+	position: relative;
+	top: 2px;
+	float: right;
+}
+
+/*estilização da modal para deletar produto*/
+
+div.modal-linha-deletar-produto{
+	width: 100%;
+	position: fixed;
+	top: 100px;
+	display: none;
+	z-index: 2;
+}
+
+div.modal-produto-delete{
+	width: 40%;
+	height: 270px;
+	background-color: #D8D8D8;
+	margin: 0 auto;
+}
+
+div.modal-head-delete-produto{
+	background-color: red;
+	color: #FFF;
+}
+
+div.modal-produto-delete-body{
+	width: 95%;
+	height: 158px;
+	margin: 0 auto;
+}
+
+div.modal-bottom-delete-produto{
+	width: 80%;
+}
+
+button.modal-produto-btn-deletar{
+	width: 40%;
+	height: 40px;
+	font-size: 23px;
+	position: relative;
+	top: 2px;
+}
+
+button.modal-produto-btn-cancelar{
+	width: 40%;
+	height: 40px;
+	font-size: 23px;
+	position: relative;
+	top: 2px;
+	float: right;
+}
+
+/*estilização da modal de edição de venda do carrinho*/
+
+div.modal-linha-editar-venda{
+	width: 100%;
+	position: fixed;
+	top: 90px;
+	display: none;
+	z-index: 2;
+}
+
+div.modal-venda-editar{
+	width: 40%;
+	height: 300px;
+	margin: 0 auto;
+	background-color: #D8D8D8;
+}
+
+div.modal-head-venda-editar{
+	background-color: blue;
+}
+
+div.modal-head-venda-editar h2{
+	color: #FFF;
+}
+
+div.modal-venda-editar-body{
+	width: 95%;
+	margin: 0 auto;
+	height: 190px;
+}
+
+
+button.btn-venda-salvar{
+	width: 40%;
+	float: left;
+	background-color: #BDBDBD;
+	cursor: pointer;
+}
+
+button.btn-venda-cancelar{
+	width: 40%;
+	float: right;
+	background-color: #BDBDBD;
+	cursor: pointer;
+}
+
+div.modal-venda-editar-box{
+	height: 90%;
+	width: 95%;
+	float: left;
+	position: relative;
+	top: 10px;
+}
+
+div.modal-venda-editar-imagem{
 	width: 30%;
-	font-size: 20px
+}
+
+div.modal-venda-editar-dados{
+	width: 69%;
+	font-size: 20px;
+}
+
+div.modal-vendas-editar-info{
+	width: 96%;
+	height: 69%;
+}
+
+div.modal-venda-editar-imagem img{
+	width: 90%;
+	height: 50%px;
+}
+
+div.modal-vendas-editar-bottom{
+	width: 60%;
+}
+
+input.modal-vendas-editar-unidades{
+	height: 15%;
+	width: 30%;
+	font-size: 20px;
+}
+
+/*estilização da modal para deletar carrinho*/
+
+div.modal-linha-deletar-carrinho{
+	width: 100%;
+	position: fixed;
+	top: 100px;
+	display: none;
+	z-index: 2;
+}
+
+div.modal-carrinho-delete{
+	width: 40%;
+	height: 270px;
+	background-color: #D8D8D8;
+	margin: 0 auto;
+}
+
+div.modal-head-delete-carrinho{
+	background-color: red;
+	color: #FFF;
+}
+
+div.modal-carrinho-delete-body{
+	width: 95%;
+	height: 158px;
+	margin: 0 auto;
+}
+
+div.modal-bottom-delete-carrinho{
+	width: 80%;
+}
+
+button.modal-carrinho-btn-deletar{
+	width: 40%;
+	height: 40px;
+	font-size: 23px;
+	position: relative;
+	top: 2px;
+}
+
+button.modal-carrinho-btn-cancelar{
+	width: 40%;
+	height: 40px;
+	font-size: 23px;
+	position: relative;
+	top: 2px;
+	float: right;
+}
+
+/*estilização da modal para deletar venda*/
+
+div.modal-linha-deletar-venda{
+	width: 100%;
+	position: fixed;
+	top: 100px;
+	display: none;
+	z-index: 2;
+}
+
+div.modal-venda-delete{
+	width: 40%;
+	height: 270px;
+	background-color: #D8D8D8;
+	margin: 0 auto;
+}
+
+div.modal-head-delete-venda{
+	background-color: red;
+	color: #FFF;
+}
+
+div.modal-venda-delete-body{
+	width: 95%;
+	height: 158px;
+	margin: 0 auto;
+}
+
+div.modal-bottom-delete-venda{
+	width: 80%;
+}
+
+button.modal-venda-btn-deletar{
+	width: 40%;
+	height: 40px;
+	font-size: 23px;
+	position: relative;
+	top: 2px;
+}
+
+button.modal-venda-btn-cancelar{
+	width: 40%;
+	height: 40px;
+	font-size: 23px;
+	position: relative;
+	top: 2px;
+	float: right;
 }

@@ -5,7 +5,7 @@
 	$host = "localhost";
 	$dbname = "mercado2";
 	$user = "root";
-	$password = "";
+	$password = "d3s1p6g6";
 	
 	$connection = new Database($host, $dbname, $user, $password);
 

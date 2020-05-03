@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Tempo de geração: 24/04/2020 às 17:17
+-- Tempo de geração: 03/05/2020 às 19:59
 -- Versão do servidor: 10.3.22-MariaDB-0+deb10u1
 -- Versão do PHP: 7.3.14-1~deb10u1
 
@@ -60,8 +60,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_produto` (`cod_produto` INTE
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_user` (IN `par_id` INT)  BEGIN
-
+CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_user` (`par_id` INTEGER)  BEGIN
+	
+	DELETE FROM estabelecimentos WHERE admin_id = par_id;
 	DELETE FROM users WHERE id = par_id;
 
 END$$
@@ -274,11 +275,12 @@ INSERT INTO `carrinhos` (`id`, `status_carrinho`, `dt_criacao`) VALUES
 (2, 'Finalizado', '2020-04-04 14:30:00'),
 (3, 'Finalizado', '2020-04-13 15:38:09'),
 (4, 'Finalizado', '2020-04-13 15:40:03'),
-(5, 'Em andamento', '2020-04-13 16:00:21'),
+(5, 'Finalizado', '2020-04-13 16:00:21'),
 (6, 'Finalizado', '2020-04-13 16:21:23'),
 (7, 'Finalizado', '2020-04-13 16:23:37'),
-(8, 'Finalizado', '2020-04-13 16:41:11'),
-(11, 'Finalizado', '2020-04-13 17:26:38');
+(11, 'Finalizado', '2020-04-13 17:26:38'),
+(12, 'Finalizado', '2020-04-30 23:46:48'),
+(16, 'Finalizado', '2020-05-03 17:04:22');
 
 -- --------------------------------------------------------
 
@@ -325,8 +327,7 @@ CREATE TABLE `estabelecimentos` (
 --
 
 INSERT INTO `estabelecimentos` (`id`, `nome`, `email`, `endereco`, `fone`, `zap`, `cnpj`, `admin_id`, `dt_criacao`, `dt_atualizacao`) VALUES
-(12, 'Mateus Supermercados', 'mateus04@gmail.com', 'Av Guajajaras , São Cristovão n34', '98932439876', '98988233307', '76790123035', 52, '2020-04-17 16:33:52', '2020-04-17 16:33:52'),
-(13, 'Mateus Supermercados', 'mateus09@gmail.com', 'Av Guajajaras , São Cristovão n34', '98932439876', '98988233307', '76790123033', 54, '2020-04-17 16:44:12', '2020-04-17 16:44:12');
+(12, 'Mateus Supermercados', 'mateus04@gmail.com', 'Av Guajajaras , São Cristovão n34', '98932439876', '98988233307', '76790123035', 52, '2020-04-17 16:33:52', '2020-04-17 16:33:52');
 
 -- --------------------------------------------------------
 
@@ -394,7 +395,8 @@ INSERT INTO `permissoes` (`id`, `descricao`) VALUES
 (6, 'Excluir produto'),
 (7, 'Visualizar vendas'),
 (8, 'Cadastrar funcionário'),
-(9, 'Visualizar carrinhos');
+(9, 'Visualizar carrinhos'),
+(10, 'Visualizar usuários');
 
 -- --------------------------------------------------------
 
@@ -416,30 +418,31 @@ CREATE TABLE `produtos` (
 --
 
 INSERT INTO `produtos` (`codigo`, `nome`, `categoria_id`, `pcusto`, `pvenda`, `estoque`) VALUES
-(1, 'Margarina', 1, 2, 4.5, 0),
-(2, 'Óleo', 1, 1, 2, 0),
-(3, 'Creme de Leite', 1, 1.25, 2.75, 0),
-(5, 'Extrato de Tomate', 1, 1, 1.75, 0),
-(6, 'Refrigerante', 2, 2, 1.55, 32),
-(7, 'Água Mineral', 2, 0.9, 2, 0),
-(8, 'Cerveja', 2, 2, 5, 11),
-(9, 'Suco Pronto', 2, 2, 4.5, 0),
-(10, 'Chá Pronto', 2, 1.25, 3, 0),
-(11, 'Shampoo', 3, 2, 4.75, 0),
-(12, 'Creme Dental', 3, 1, 2, 0),
-(13, 'Desodorante', 3, 2.25, 4.5, 6),
-(14, 'Sabonete', 3, 0.4, 1.25, 6),
-(15, 'Papel Higiênico', 3, 0.5, 1.5, 0),
-(16, 'Sabão em Pedra', 4, 0.75, 1.55, 3),
-(17, 'Detergente Líquido', 4, 0.8, 1.85, 14),
+(1, 'Margarina', 1, 2, 4.5, 18),
+(2, 'Óleo de soja', 1, 1, 2, 17),
+(3, 'Creme de Leite', 1, 1.25, 2.75, 20),
+(5, 'Extrato de Tomate', 1, 1, 1.75, 18),
+(6, 'Refrigerante', 2, 2, 1.55, 29),
+(7, 'Água Mineral Indaiá', 2, 0.9, 2, 11),
+(9, 'Suco Pronto', 2, 2, 4.5, 20),
+(10, 'Chá Pronto', 2, 1.25, 3, 20),
+(11, 'Shampoo', 3, 2, 4.75, 20),
+(12, 'Creme Dental', 3, 1, 2, 20),
+(13, 'Desodorante', 3, 2.25, 4.5, 20),
+(14, 'Sabonete', 3, 0.4, 1.25, 5),
+(15, 'Papel Higiênico', 3, 0.5, 1.5, 20),
+(16, 'Sabão em Pedra', 4, 0.75, 1.55, 20),
+(17, 'Detergente Líquido', 4, 0.8, 1.85, 6),
 (18, 'Amaciante', 4, 1.15, 3.25, 1),
-(19, 'Água Sanitária', 4, 1, 2.35, 21),
+(19, 'Água Sanitária', 4, 1, 2.35, 14),
 (20, 'Esponja Sintética', 4, 0.5, 1.25, 16),
 (21, 'Sardinha em Lata', 1, 1.25, 2.75, 11),
-(22, 'Macarrão', 1, 0.8, 1.75, 17),
+(22, 'Macarrão a Bolonesa', 1, 1.55, 3, 21),
 (23, 'Condicionador', 3, 2.15, 4.75, 22),
 (24, 'Nescau', 2, 1, 2, 50),
-(25, 'Sabonete Líquido', 3, 1.1, 2.5, 21);
+(25, 'Sabonete Líquido', 3, 1.1, 2.5, 21),
+(28, 'Farinha de Trigo', 1, 1.75, 3, 23),
+(54, 'Soda', 2, 1.5, 3.15, 54);
 
 -- --------------------------------------------------------
 
@@ -466,12 +469,9 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `nome`, `email`, `user_name`, `passwd`, `fone`, `zap`, `tipo_id`, `dt_criacao`, `dt_atualizacao`) VALUES
 (52, 'Renato Rodrigues', 'rodriguesrenato61@gmail.com', 'rodriguesrenato61', '202cb962ac59075b964b07152d234b70', '98988258639', '98999812283', 1, '2020-04-17 15:33:22', '2020-04-17 15:33:22'),
-(53, 'Renato Rodrigues', 'rodriguesrenato321@gmail.com', 'rodriguesrenato321', '202cb962ac59075b964b07152d234b70', '98988258639', '98999812283', 2, '2020-04-17 16:36:12', '2020-04-22 19:52:14'),
-(54, 'Renato Rodrigues', 'rodriguesrenato82@gmail.com', 'rodriguesrenato82', '202cb962ac59075b964b07152d234b70', '98988258639', '98999812283', 2, '2020-04-17 16:43:47', '2020-04-22 20:07:01'),
-(56, 'Renato Rodrigues', 'rodriguesrenato62@gmail.com', 'rodriguesrenato62', '202cb962ac59075b964b07152d234b70', '98988258639', '98999812283', 3, '2020-04-24 12:22:10', '2020-04-24 12:22:10'),
-(57, 'Renato Rodrigues', 'rodriguesrenato63@gmail.com', 'rodriguesrenato63', '202cb962ac59075b964b07152d234b70', '98988258639', '98999812283', 3, '2020-04-24 12:22:32', '2020-04-24 12:22:32'),
-(58, 'Renato Rodrigues', 'rodriguesrenato64@gmail.com', 'rodriguesrenato64', '202cb962ac59075b964b07152d234b70', '98988258639', '98999812283', 3, '2020-04-24 12:22:48', '2020-04-24 12:22:48'),
-(59, 'Renato Rodrigues', 'rodriguesrenato65@gmail.com', 'rodriguesrenato65', '202cb962ac59075b964b07152d234b70', '98988258639', '98999812283', 3, '2020-04-24 12:23:12', '2020-04-24 12:23:12');
+(53, 'Renato Rodrigues', 'rodriguesrenato62@gmail.com', 'rodriguesrenato62', '202cb962ac59075b964b07152d234b70', '98988258639', '98999812283', 2, '2020-04-17 16:36:12', '2020-04-30 09:37:21'),
+(60, 'Renato Rodrigues de Souza', 'rodriguesrenato70@gmail.com', 'rodriguesrenato70', '202cb962ac59075b964b07152d234b70', '98999812283', '98999812283', 3, '2020-05-03 19:45:20', '2020-05-03 19:45:20'),
+(61, 'Renato Rodrigues', 'rodriguesrenato63@gmail.com', 'rodriguesrenato63', '202cb962ac59075b964b07152d234b70', '98988258639', '98999812283', 3, '2020-05-03 19:46:41', '2020-05-03 19:46:41');
 
 -- --------------------------------------------------------
 
@@ -515,12 +515,6 @@ INSERT INTO `vendas` (`id`, `produto_nome`, `categoria_nome`, `carrinho_id`, `pv
 (112, 'Suco Pronto', 'Bebidas', 6, 4.5, 2, 2, '2020-04-13 16:22:11', 9),
 (113, 'Creme Dental', 'Higiene', 6, 2, 1, 2, '2020-04-13 16:22:22', 12),
 (114, 'Água Mineral', 'Bebidas', 7, 2, 0.9, 1, '2020-04-13 16:24:09', 7),
-(116, 'Água Mineral', 'Bebidas', 5, 2, 0.9, 3, '2020-04-13 16:41:03', 7),
-(117, 'Creme Dental', 'Higiene', 8, 2, 1, 2, '2020-04-13 16:41:25', 12),
-(118, 'Suco Pronto', 'Bebidas', 8, 4.5, 2, 2, '2020-04-13 16:45:41', 9),
-(119, 'Sabão em Pedra', 'Limpeza', 8, 1.55, 0.75, 4, '2020-04-13 16:45:51', 16),
-(120, 'Chá Pronto', 'Bebidas', 8, 3, 1.25, 1, '2020-04-13 16:46:05', 10),
-(121, 'Sardinha em Lata', 'Alimentos', 8, 2.75, 1.25, 4, '2020-04-13 16:46:18', 21),
 (124, 'Suco Pronto', 'Bebidas', 11, 4.5, 2, 1, '2020-04-13 17:27:27', 9),
 (125, 'Sabão em Pedra', 'Limpeza', 11, 1.55, 0.75, 3, '2020-04-13 17:27:36', 16),
 (127, 'Desodorante', 'Higiene', 11, 4.5, 2.25, 3, '2020-04-13 17:28:06', 13),
@@ -533,12 +527,21 @@ INSERT INTO `vendas` (`id`, `produto_nome`, `categoria_nome`, `carrinho_id`, `pv
 (136, 'Desodorante', 'Higiene', 7, 4.5, 2.25, 4, '2020-04-20 22:17:05', 13),
 (137, 'Refrigerante', 'Bebidas', 7, 1.55, 2, 4, '2020-04-20 22:28:48', 6),
 (138, 'Sabão em Pedra', 'Limpeza', 5, 1.55, 0.75, 5, '2020-04-24 16:55:11', 16),
-(139, 'Refrigerante', 'Bebidas', 5, 1.55, 2, 4, '2020-04-24 16:55:58', 6),
+(139, 'Refrigerante', 'Bebidas', 5, 1.55, 2, 7, '2020-04-24 16:55:58', 6),
 (140, 'Suco Pronto', 'Bebidas', 5, 4.5, 2, 2, '2020-04-24 16:56:24', 9),
 (141, 'Sabonete', 'Higiene', 5, 1.25, 0.4, 3, '2020-04-24 16:56:52', 14),
 (142, 'Detergente Líquido', 'Limpeza', 5, 1.85, 0.8, 2, '2020-04-24 16:57:15', 17),
 (143, 'Amaciante', 'Limpeza', 5, 3.25, 1.15, 1, '2020-04-24 16:57:23', 18),
-(144, 'Água Sanitária', 'Limpeza', 5, 2.35, 1, 3, '2020-04-24 16:57:31', 19);
+(144, 'Água Sanitária', 'Limpeza', 5, 2.35, 1, 3, '2020-04-24 16:57:31', 19),
+(147, 'Desodorante', 'Higiene', 12, 4.5, 2.25, 4, '2020-05-01 00:15:34', 13),
+(148, 'Sabão em Pedra', 'Limpeza', 12, 1.55, 0.75, 3, '2020-05-01 00:18:23', 16),
+(149, 'Água Sanitária', 'Limpeza', 12, 2.35, 1, 4, '2020-05-01 00:19:50', 19),
+(155, 'Água Mineral Indaiá', 'Bebidas', 16, 2, 0.9, 2, '2020-05-03 17:14:39', 7),
+(156, 'Detergente Líquido', 'Limpeza', 16, 1.85, 0.8, 2, '2020-05-03 17:15:19', 17),
+(157, 'Água Sanitária', 'Limpeza', 16, 2.35, 1, 3, '2020-05-03 17:16:48', 19),
+(158, 'Margarina', 'Alimentos', 16, 4.5, 2, 2, '2020-05-03 18:53:34', 1),
+(159, 'Óleo de soja', 'Alimentos', 16, 2, 1, 3, '2020-05-03 18:53:42', 2),
+(160, 'Extrato de Tomate', 'Alimentos', 16, 1.75, 1, 2, '2020-05-03 18:54:00', 5);
 
 -- --------------------------------------------------------
 
@@ -781,7 +784,7 @@ ALTER TABLE `vendas`
 -- AUTO_INCREMENT de tabela `carrinhos`
 --
 ALTER TABLE `carrinhos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT de tabela `categorias`
 --
@@ -806,22 +809,22 @@ ALTER TABLE `niveis_permissoes`
 -- AUTO_INCREMENT de tabela `permissoes`
 --
 ALTER TABLE `permissoes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `codigo` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
 --
 -- AUTO_INCREMENT de tabela `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=60;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 --
 -- AUTO_INCREMENT de tabela `vendas`
 --
 ALTER TABLE `vendas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=161;
 --
 -- Restrições para dumps de tabelas
 --

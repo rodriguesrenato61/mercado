@@ -3,14 +3,9 @@
 	const codigo = document.querySelector("#codigo");
 	const nome = document.querySelector("#nome");
 	const categorias = document.querySelector("#categorias");
-	const produtosItems = document.querySelector("#produtos-items");
+	const produtosTable = document.querySelector("#produtos-table");
 	const paginate = document.querySelector("#paginate");
 	const page = document.querySelector("#page");
-	
-	const modalFundo = document.querySelector("#modal-fundo");
-	const modalMeio = document.querySelector("#modal-meio");
-	
-	const modalMeio2 = document.querySelector("#modal-meio2");
 	
 	const btnNew = document.querySelector("#btn-novo");
 	
@@ -21,392 +16,376 @@
 	const pvenda = document.querySelector("#pvenda");
 	const estoque = document.querySelector("#estoque");
 	
-	const codigoProduto2 = document.querySelector("#codigo_produto2");
-	const nomeProduto2 = document.querySelector("#nome_produto2");
-	const categoriaProduto2 = document.querySelector("#categoria_produto2");
-	const pcusto2 = document.querySelector("#pcusto2");
-	const pvenda2 = document.querySelector("#pvenda2");
-	const estoque2 = document.querySelector("#estoque2");
+	const btnCadastrarSalvar = document.querySelector("#btn-cadastrar-salvar");
+	const btnCancelar = document.querySelector("#btn-cancelar");
 	
-	const btnCadastrar = document.querySelector("#btn-cadastrar");
+	const deleteProdutoId = document.querySelector("#delete-produto-id");
+	const btnDeletar = document.querySelector("#btn-deletar");
 	
-	const btnSalvar = document.querySelector("#btn-salvar");
+	const objetoProduto = new Produto();
+	var opcao_delete = 0;
+	
+	var opcao = 1;
+
 	
 	var total;
 	
 	var html;
 
-	function loadCategorias(){
+function loadCategorias(){
 		
-		rota.setUrl("json/produtos.php?opcao=categorias");
+	resposta = objetoProduto.indexCategorias();
 		
-		fetch(rota.getUrl())
+	resposta.then(function(response){
 		
-		.then(function(response){
+		html = "<option value='0'>--Categorias--</option>";
 		
-			return response.json();
-		}).then(function(response){
+		response.forEach(function(categoria){
 		
-			html = "<option value='0'>--Categorias--</option>";
+			html += "<option value='"+categoria.id+"'>"+categoria.nome+"</option>";
 		
-			response.forEach(function(categoria){
+		});
 		
-				html += "<option value='"+categoria.id+"'>"+categoria.nome+"</option>";
+		categorias.innerHTML = html;
+		categoriaProduto.innerHTML = html;
 		
-			});
-		
-			categorias.innerHTML = html;
-			categoriaProduto.innerHTML = html;
-			categoriaProduto2.innerHTML = html;
-		
-		}).catch(function(err){
+	}).catch(function(err){
 			
-			categorias.innerHTML = "<option value='0'>Erro</option>";
+		categorias.innerHTML = "<option value='0'>Erro</option>";
 			categoriaProduto.innerHTML = "<option value='0'>Erro</option>";
-		});
-	}
+	});
+}
 	
-	function loadEditar(btnEdits, codigos){
-		let i = 0;
+function loadEditar(btnEdits, codigos){
+	let i = 0;
 		
-		codigos.forEach(function(codigo){
-			btnEdits[i].addEventListener('click', function(event){
-				event.preventDefault();
-				
-				abrirModal2(codigo);
-			});
-			i++;
-		});
-	}
-	
-	function loadRemoves(btnRemoves, codigos){
-		let i = 0;
-		
-		codigos.forEach(function(codigo){
-			btnRemoves[i].addEventListener('click', function(event){
-				event.preventDefault();
-				
-				deleteProduto(codigo);
-			});
-			i++;
-		});
-	}
-		
-		
-	function loadProdutos(){
-		
-		rota.setUrl("json/produtos.php?opcao=index&codigo="+codigo.value+"&nome="+nome.value+"&categoria="+categorias.value+"&page="+page.value);
-		
-		fetch(rota.getUrl())
-			
-		.then(function(response){
-		
-			return response.json();
-		}).then(function(response){
-				
-			html = "";
-			let codigos = new Array();
-				
-			response.forEach(function(produto){
-				
-				html += "<div class='produto-item'>";
-				html += "<div class='produto-item-interno'>";
-				html += "<div class='produto-info produto-imagem'>";
-				html += "Imagem";
-				html += "</div>";
-				html += "<div class='produto-info produto-dados'>";
-				html += "<strong>Codigo: </strong>"+produto.codigo+"<br>";
-				html += "<strong>Produto: </strong>"+produto.produto+"<br>";
-				html += "<strong>Categoria: </strong>"+produto.categoria+"<br>";
-				html += "<strong>Preco custo: </strong>R$ "+produto.pcusto+"<br>";
-				html += "<strong>Preco venda: </strong>R$ "+produto.pvenda+"<br>";
-				html += "<strong>Estoque: </strong>"+produto.estoque+"<br>";
-				html += "</div>";
-				html += "<div class='produto-info produto-editar'>";
-				rota.setUrl("assets/imgs/icons/edit-2.svg");
-				html += "<a href='#' class='acao edit'><img src='"+rota.getUrl()+"'></a>";
-				html += "</div>";
-				html += "<div class='produto-info produto-remover'>";
-				rota.setUrl("assets/imgs/icons/trash-2.svg");
-				html += "<a href='#' class='acao remove'><img src='"+rota.getUrl()+"'></a>";
-				html += "</div>";
-				html += "</div>";
-				html += "</div>";
-				total = produto.total;
-				codigos.push(produto.codigo);
-			
-			});
-				
-			produtosItems.innerHTML = html;
-			
-			let btnEdits = document.querySelectorAll(".edit");
-			loadEditar(btnEdits, codigos);
-			
-			let btnRemoves = document.querySelectorAll(".remove");
-			loadRemoves(btnRemoves, codigos);
-			
-			paginacao(page.value);
-			
-		
-		}).catch(function(err){
-			
-			alert("Nenhum produto encontrado!");
-		});
-			
-	}
-	
-	function loadPaginas(a, links){
-		let i = 0;
-		links.forEach(function(link){
-			a[i].addEventListener('click', function(event){
-				event.preventDefault();
-				page.value = link;
-				loadProdutos();
-			});
-			i++;
-		});
-	}
-	
-		
-		
-	function paginacao(atual){
-		
-		atual = parseInt(atual);
-			
-		let limit = 5;
-		let colunas = 3;
-		let paginas = Math.ceil(total/limit);
-
-		let inicio = ((atual - 1) * limit) + 1;
-		let fim;
-		
-		if((atual * limit) >= total){
-			fim = total;
-		}else{
-			fim = atual * limit;
-		} 
-			
-		linhas = Math.ceil(paginas/colunas);
-			
-		let pagina_inicial;
-		let pagina_final;
-		let final_bloco;
-		let linha;
-		let i;
-		
-		for(i = 1; i <= linhas; i++){
-			
-			final_bloco = i * colunas;
-			
-			if(final_bloco >= atual){
-				
-				pagina_inicial = ((i - 1) * colunas) + 1;
-				
-				if(final_bloco >= paginas){
-					pagina_final = paginas;
-				}else{
-					pagina_final = final_bloco;
-				}
-				
-				linha = i;
-				break;
-				
-				}
-			}
-			
-			html = "<h2>";
-			let links = new Array();
-			let num;
-			
-			for(i = pagina_inicial; i <= pagina_final; i++){
-				
-				if(i == pagina_inicial){
-					
-					if(i > colunas){
-						html += "<a class='pagina seta' href=''><<<</a>";
-						num = i - 1;
-						links.push(num);
-					}
-				}
-				
-				if(i == atual){
-					
-					html += " <strong><a class='pagina escolhido' href=''>"+i+"</a></strong>";
-					num = i;
-					links.push(num);
-				}else{
-					html += " <a class='pagina comum' href=''>"+i+"</a>";
-					num = i;
-					links.push(num);
-				}
-				
-				if(i == pagina_final){
-					if(i < paginas){
-						html += " <a class='pagina seta' href=''>>>></a>";
-						num = i + 1;
-						links.push(num);
-					}
-				}
-				
-			}
-			
-			html += "</h2>";
-			
-			paginate.innerHTML = html;
-			
-			let a = document.querySelectorAll(".pagina");
-			
-			loadPaginas(a, links);
-			
-		}
-		
-		function abrirModal(){
-			modalFundo.style.display = "block";
-			modalMeio.style.display = "block";
-		}
-		
-		function abrirModal2(cod){
-			
-			rota.setUrl('json/produtos.php?opcao=get&codigo='+cod);
-			
-			fetch(rota.getUrl())
-			
-			.then(function(response){
-				
-				return response.json();
-			}).then(function(response){
-			
-				response.forEach(function(produto){
-					codigoProduto2.value = produto.codigo;
-					nomeProduto2.value = produto.produto;
-					categoriaProduto2.value = produto.categoria_id;
-					pcusto2.value = produto.pcusto;
-					pvenda2.value = produto.pvenda;
-					estoque2.value = produto.estoque;
-				});
-				modalFundo.style.display = "block";
-				modalMeio2.style.display = "block";
-			})
-			
-		}
-		
-		function fecharModal2(){
-			modalFundo.style.display = "none";
-			modalMeio2.style.display = "none";
-		}
-		
-		function updateProduto(){
-			
-			rota.setUrl('json/produtos.php?opcao=update&codigo='+codigoProduto2.value+'&nome='+nomeProduto2.value+'&categoria='+categoriaProduto2.value+'&pcusto='+pcusto2.value+'&pvenda='+pvenda2.value+'&estoque='+estoque2.value);
-			
-			fetch(rota.getUrl())
-			
-			.then(function(response){
-				return response.json();
-			}).then(function(response){
-				let tipo, msg;
-				response.forEach(function(result){
-					tipo = result.tipo;
-					msg = result.msg;
-				});
-				if(tipo){
-					loadProdutos();
-					alert(msg);
-				}else{
-					alert(msg);
-				}
-			
-			});
-		}
-		
-		function deleteProduto(cod){
-			
-			rota.setUrl('json/produtos.php?opcao=delete&codigo='+cod);
-			
-			fetch(rota.getUrl())
-			
-			.then(function(response){
-				return response.json();
-			}).then(function(response){
-				let tipo, msg;
-				response.forEach(function(result){
-					tipo = result.tipo;
-					msg = result.msg;
-				});
-				if(tipo){
-					loadProdutos();
-					alert(msg);
-				}else{
-					alert(msg);
-				}
-			
-			});
-		}
-		
-		function createProduto(){
-			
-			if(codigoProduto.value != "" && codigoProduto.value !="0" && nomeProduto.value != "" && categoriaProduto.value != "0" && pcusto.value != "0" && pcusto.value != "" && pvenda.value != "0" && pvenda.value != "" && estoque.value != "0" && estoque.value != ""){
-				
-				rota.setUrl('json/produtos.php?opcao=create&codigo='+codigoProduto.value+'&nome='+nomeProduto.value+'&categoria='+categoriaProduto.value+'&pcusto='+pcusto.value+'&pvenda='+pvenda.value+'&estoque='+estoque.value);
-				
-				fetch(rota.getUrl())
-				
-				.then(function(response){
-					
-					return response.json();
-				}).then(function(response){
-					let type, msg;
-					response.forEach(function(result){
-						type = result.tipo;
-						msg = result.msg;
-					});
-					if(type == true){
-						fecharModal();
-						alert(msg);
-						loadProdutos();
-					}else{
-						alert(msg);
-					}
-				}).catch(function(err){
-					alert("Erro ao realizar requisição!");
-				});
-			}else{
-				alert("Erro, preencha todos os campos corretamente!");
-			}   
-			
-		}
-		
-		function fecharModal(){
-			
-			modalFundo.style.display = "none";
-			modalMeio.style.display = "none";
-			
-		}
-		
-		
-		
-		formPesquisar.addEventListener('submit', function(event){
+	codigos.forEach(function(codigo){
+		btnEdits[i].addEventListener('click', function(event){
 			event.preventDefault();
-			page.value = 1;
-			loadProdutos();
-			
+				
+			abrirModalEditar(codigo.codigo);
 		});
+		i++;
+	});
+}
+	
+function loadRemoves(btnRemoves, codigos){
+	let i = 0;
 		
-		btnNew.addEventListener('click', function(){
-			
-			abrirModal();
-			
+	codigos.forEach(function(codigo){
+		btnRemoves[i].addEventListener('click', function(event){
+			event.preventDefault();
+				
+			modalBodyDeletarProduto.innerHTML = "<h2>Você tem certeza de que deseja deletar o produto "+codigo.nome+"?</h2>";
+			deleteProdutoId.value = codigo.codigo;
+			modalDeletarProdutoShow();
+				
 		});
+		i++;
+	});
+}
 		
-		btnCadastrar.addEventListener('click', function(){
-			createProduto();
-		});
 		
-		btnSalvar.addEventListener('click', function(){
-			updateProduto();
-			fecharModal2();
+function loadProdutos(){
+		
+	resposta = objetoProduto.index('', '', '' , 1);
+			
+	resposta.then(function(response){
+				
+		html = "";
+		let codigos = new Array();
+		let registros, limit;
+			
+		html += "<tr>";
+		html += "<th>Código</th>";
+		html += "<th>Produto</th>";
+		html += "<th>Categoria</th>";
+		html += "<th>Preço de Custo</th>";
+		html += "<th>Preço de Venda</th>";
+		html += "<th>Estoque</th>";
+		html += "<th colspan='2'>Ação</th>";
+		html += "</tr>";
+				
+		response.forEach(function(result){
+				
+			registros = result.registros;
+				
+			registros.forEach(function(produto){
+				html += "<tr>";
+				html += "<td>"+produto.codigo+"</td>";
+				html += "<td>"+produto.produto+"</td>";
+				html += "<td>"+produto.categoria+"</td>";
+				html += "<td>R$ "+produto.pcusto+"</td>";
+				html += "<td>R$ "+produto.pvenda+"</td>";
+				html += "<td>"+produto.estoque+"</td>";
+				html += "<td><a href='' class='acao edit'><img src='"+rota.getRoute('editar-icon')+"'></a></td>";
+				html += "<td><a href='' class='acao remove'><img src='"+rota.getRoute('remover-icon')+"'></a></td>";
+				html += "</tr>";
+				codigos.push({codigo: produto.codigo, nome: produto.produto});
+			});
+				
+			limit = result.limit;
+			total = result.total;
+				
 		});
+				
+		produtosTable.innerHTML = html;
+			
+		let btnEdits = document.querySelectorAll(".edit");
+		loadEditar(btnEdits, codigos);
+			
+		let btnRemoves = document.querySelectorAll(".remove");
+		loadRemoves(btnRemoves, codigos);
+			
+		let links = paginacao(page.value, limit, total, paginate);
+		loadPaginas(links);
+			
+	}).catch(function(err){
+			
+		if(opcao_delete == 0){
+			alert("Nenhum produto encontrado!");
+		}
+		codigo.value = "";
+		nome.value = "";
+		categorias.value = "0";
+		page.value = 1;
 
-		loadCategorias();
+	});
+			
+}
+
+function buscarProdutos(){
+		
+	resposta = objetoProduto.index(codigo.value, nome.value, categorias.value, page.value);
+			
+	resposta.then(function(response){
+				
+		html = "";
+		let codigos = new Array();
+		let registros, limit;
+			
+		html += "<tr>";
+		html += "<th>Código</th>";
+		html += "<th>Produto</th>";
+		html += "<th>Categoria</th>";
+		html += "<th>Preço de Custo</th>";
+		html += "<th>Preço de Venda</th>";
+		html += "<th>Estoque</th>";
+		html += "<th colspan='2'>Ação</th>";
+		html += "</tr>";
+				
+		response.forEach(function(result){
+				
+			registros = result.registros;
+				
+			registros.forEach(function(produto){
+				html += "<tr>";
+				html += "<td>"+produto.codigo+"</td>";
+				html += "<td>"+produto.produto+"</td>";
+				html += "<td>"+produto.categoria+"</td>";
+				html += "<td>R$ "+produto.pcusto+"</td>";
+				html += "<td>R$ "+produto.pvenda+"</td>";
+				html += "<td>"+produto.estoque+"</td>";
+				html += "<td><a href='' class='acao edit'><img src='"+rota.getRoute('editar-icon')+"'></a></td>";
+				html += "<td><a href='' class='acao remove'><img src='"+rota.getRoute('remover-icon')+"'></a></td>";
+				html += "</tr>";
+				codigos.push({codigo: produto.codigo, nome: produto.produto});
+			});
+				
+			limit = result.limit;
+			total = result.total;
+				
+		});
+				
+		produtosTable.innerHTML = html;
+			
+		let btnEdits = document.querySelectorAll(".edit");
+		loadEditar(btnEdits, codigos);
+			
+		let btnRemoves = document.querySelectorAll(".remove");
+		loadRemoves(btnRemoves, codigos);
+			
+		let links = paginacao(page.value, limit, total, paginate);
+		loadPaginas(links);
+			
+	}).catch(function(err){
+		
+		alert("Nenhum produto encontrado!");
+
+		codigo.value = "";
+		nome.value = "";
+		categorias.value = "0";
+		page.value = 1;
 		loadProdutos();
+	});
+			
+}
+	
+function loadPaginas(links){
+	let a = document.querySelectorAll(".pagina");
+	let i = 0;
+	links.forEach(function(link){
+		a[i].addEventListener('click', function(event){
+			event.preventDefault();
+			page.value = link;
+			buscarProdutos();
+		});
+		i++;
+	});
+}
+	
+function abrirModalCriar(){
+	btnCadastrarSalvar.innerText = "Cadastrar";
+	opcao = 1;
+	modalCriarProdutoShow();
+}
+	
+		
+		
+function abrirModalEditar(cod){
+			
+	resposta = objetoProduto.get(cod);
+			
+	resposta.then(function(response){
+
+		response.forEach(function(produto){
+			codigoProduto.value = produto.codigo;
+			nomeProduto.value = produto.produto;
+			categoriaProduto.value = produto.categoria_id;
+			pcusto.value = produto.pcusto;	
+			pvenda.value = produto.pvenda;
+			estoque.value = produto.estoque;
+		});
+		btnCadastrarSalvar.innerText = "Salvar";
+		opcao = 2;
+		modalEditarProdutoShow();
+	});
+			
+}
+		
+		
+		
+function updateProduto(){
+			
+	resposta = objetoProduto.update(codigoProduto.value, nomeProduto.value, categoriaProduto.value, pcusto.value, pvenda.value, estoque.value);		
+			
+	resposta.then(function(response){
+		let sucess, msg;
+		response.forEach(function(result){
+			sucess = result.tipo;
+			msg = result.msg;
+		});
+		if(sucess){
+			loadProdutos();
+			modalEditarProdutoClose();
+			loadMensagem(sucess, msg);
+			opcao = 0;
+		}else{
+			alert(msg);
+		}
+		
+			
+	}).catch(function(err){
+		modalEditarProdutoClose();
+		loadMensagem(false, "Erro, não foi possível atualizar o produto!");
+		opcao = 0;
+	});
+}
+		
+function deleteProduto(cod){
+			
+	resposta = objetoProduto.delete(cod);
+			
+	resposta.then(function(response){
+		let sucess, msg;
+		response.forEach(function(result){
+			sucess = result.tipo;
+			msg = result.msg;
+		});
+		if(sucess){
+			loadProdutos();
+		}
+		loadMensagem(sucess, msg);
+			
+	}).catch(function(err){
+		loadMensagem(false, "Erro ao enviar requisição!");
+	});
+}
+
+		
+function createProduto(){
+			
+	if(codigoProduto.value != "" && codigoProduto.value !="0" && nomeProduto.value != "" && categoriaProduto.value != "0" && pcusto.value != "0" && pcusto.value != "" && pvenda.value != "0" && pvenda.value != "" && estoque.value != "0" && estoque.value != ""){
+				
+		resposta = objetoProduto.create(codigoProduto.value, nomeProduto.value, categoriaProduto.value, pcusto.value, pvenda.value, estoque.value);
+				
+		resposta.then(function(response){
+			let sucess, msg;
+			response.forEach(function(result){
+				sucess = result.tipo;
+				msg = result.msg;
+			});
+			if(sucess){
+				loadProdutos();
+				modalCriarProdutoClose();
+				loadMensagem(sucess, msg);
+			}else{
+				alert(msg);
+				opcao = 1;
+			}
+				
+		}).catch(function(err){
+			loadMensagem(false, "Erro ao enviar requisição!");
+		});
+	}else{
+		alert("Erro, preencha todos os campos corretamente!");
+	}
+			
+}
+		
+function criar_atualizar(){
+
+	switch(opcao){
+		case 1:
+			createProduto();
+		break;
+			
+		case 2:
+			updateProduto();
+		break;
+
+	}
+	
+}		
+		
+		
+formPesquisar.addEventListener('submit', function(event){
+	event.preventDefault();
+	page.value = 1;
+	opcao_delete = 0;
+	buscarProdutos();
+			
+});
+		
+btnNew.addEventListener('click', function(){
+	abrirModalCriar();		
+});
+		
+btnCadastrarSalvar.addEventListener('click', function(){
+	criar_atualizar();
+});
+
+btnCancelar.addEventListener('click', function(){
+	modalCriarProdutoClose();
+});
+
+btnDeletar.addEventListener('click', function(){
+	deleteProduto(deleteProdutoId.value);
+	opcao_delete = 1;
+	loadProdutos();
+	modalDeletarProdutoClose();
+});
+	
+loadCategorias();
+loadProdutos();
 		

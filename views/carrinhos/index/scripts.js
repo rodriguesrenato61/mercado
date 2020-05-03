@@ -12,8 +12,20 @@ const paginate = document.querySelector("#paginate");
 
 const page = document.querySelector("#page");
 
+const btnDeletar = document.querySelector("#btn-deletar");
+
+const inputDeleteCarrinho = document.querySelector("#delete-carrinho-id");
+
+const objetoCarrinho = new Carrinho();
+
 var html;
 var totalRegistros = 0;
+
+btnDeletar.addEventListener('click', function(event){
+	event.preventDefault();
+	removerCarrinho(inputDeleteCarrinho.value);
+	
+});
 
 function loadRemoverCarrinhos(remover, ids){
 	let i = 0;
@@ -22,7 +34,7 @@ function loadRemoverCarrinhos(remover, ids){
 		remover[i].addEventListener('click', function(event){
 			event.preventDefault();
 			
-			removerCarrinho(id_carrinho);
+			abrirModalDelete(id_carrinho);
 			
 		});
 		i++;
@@ -30,34 +42,46 @@ function loadRemoverCarrinhos(remover, ids){
 
 }
 
+function abrirModalDelete(carrinho_id){
+	inputDeleteCarrinho.value = carrinho_id;
+	modalBodyDeletarCarrinho.innerHTML = "<h2>Você tem certeza de que deseja deletar o carrinho de id "+carrinho_id+"?</h2>";
+	modalDeletarCarrinhoShow();
+}
+
 function removerCarrinho(id_carrinho){
 	
-	rota.setUrl('json/carrinhos.php?opcao=delete&id='+id_carrinho);
+	let resposta = objetoCarrinho.delete(id_carrinho);
 	
-	fetch(rota.getUrl())
-	
-	.then(function(response){
-		
-		return response.json();
-	}).then(function(response){
-		let tipo, msg;
+	resposta.then(function(response){
+		let sucess, msg;
 		response.forEach(function(result){
 		
-			tipo = result.tipo;
+			sucess = result.tipo;
 			msg = result.msg;
 			
 		});
 		
-		if(tipo){
-			alert(msg);
+		if(sucess){
 			loadCarrinhos();
-		}else{
-			alert(msg);
 		}
+		loadMensagem(sucess, msg);
+		modalDeletarCarrinhoClose();
 	});
 	
 }
 
+function loadPaginas(links){
+	let i = 0;
+	let a = document.querySelectorAll(".pagina");
+	links.forEach(function(link){
+		a[i].addEventListener('click', function(event){
+			event.preventDefault();
+			page.value = link;
+			loadCarrinhos();
+		});
+		i++;
+	});
+}
 
 function loadCarrinhos(){
 	
@@ -76,13 +100,10 @@ function loadCarrinhos(){
 		dt_fim = dt_final[2]+"-"+dt_final[1]+"-"+dt_final[0]; 
 	}
 	
-	rota.setUrl('json/carrinhos.php?opcao=index&inicio='+dt_inicio+'&fim='+dt_fim+'&page='+page.value);
 	
-	fetch(rota.getUrl())
+	resposta = objetoCarrinho.index(dt_inicio, dt_fim, page.value);
 	
-	.then(function(response){
-		return response.json();
-	}).then(function(response){
+	resposta.then(function(response){
 		
 		let count = 0;
 		let ids_carrinho = new Array();
@@ -97,7 +118,7 @@ function loadCarrinhos(){
 		html += "<th colspan=2>Ação</th>";
 		html += "</tr>";
 		
-		let registros;
+		let registros, limit;
 	
 		response.forEach(function(carrinho){
 			
@@ -121,11 +142,11 @@ function loadCarrinhos(){
 				html += "<td>"+registro.data+"</td>";
 				html += "<td>"+registro.hora+"</td>";
 				if(registro.status == "Em andamento"){
-					rota.setUrl("views/carrinhos/create/index.php?id="+carrinho.id);
+					rota.setUrl("views/carrinhos/create/index.php?id="+registro.id);
 					html += "<td><a href='"+rota.getUrl()+"'><img src='"+rota.getRoute("editar-icon")+"' alt='editar'></a></td>";
 					html += "<td><a class='remover' href=''><img src='"+rota.getRoute("remover-icon")+"' alt='remover'></a></td>";
 					count++;
-					ids_carrinho.push(carrinho.id);
+					ids_carrinho.push(registro.id);
 				}else{
 					html += "<td></td>";
 					html += "<td></td>";
@@ -135,12 +156,14 @@ function loadCarrinhos(){
 			});
 			
 			totalRegistros = parseInt(carrinho.total);
+			limit = parseInt(carrinho.limit);
 			
 		});
 		
 		carrinhosTable.innerHTML = html;
 		
-		paginacao(page.value);
+		let links = paginacao(page.value, limit, totalRegistros, paginate);
+		loadPaginas(links);
 		
 		
 		if(count > 0){
@@ -155,14 +178,9 @@ function loadCarrinhos(){
 
 function createCarrinho(){
 	
-	rota.setUrl('json/carrinhos.php?opcao=create');
+	let resposta = objetoCarrinho.create();
 	
-	fetch(rota.getUrl())
-	
-	.then(function(response){
-		
-		return response.json();
-	}).then(function(response){
+	resposta.then(function(response){
 	
 		let tipo, msg, novo_id;
 		
@@ -186,14 +204,9 @@ function createCarrinho(){
 
 function novoCarrinho(){
 	
-	rota.setUrl('json/carrinhos.php?opcao=novo');
+	let resposta = objetoCarrinho.novo();
 	
-	fetch(rota.getUrl())
-	
-	.then(function(response){
-		
-		return response.json();
-	}).then(function(response){
+	resposta.then(function(response){
 	
 		let tipo, msg, novo_id;
 		
@@ -216,112 +229,7 @@ function novoCarrinho(){
 		
 	});
 }
-
-
-function loadPaginas(a, links){
-		let i = 0;
-		links.forEach(function(link){
-			a[i].addEventListener('click', function(event){
-				event.preventDefault();
-				page.value = link;
-				loadCarrinhos();
-			});
-			i++;
-		});
-	}
 	
-		
-		
-function paginacao(atual){
-		
-	atual = parseInt(atual);
-			
-	let limit = 5;
-	let colunas = 3;
-	let paginas = Math.ceil(totalRegistros/limit);
-
-	let inicio = ((atual - 1) * limit) + 1;
-	let fim;
-		
-	if((atual * limit) >= totalRegistros){
-		fim = totalRegistros;
-	}else{
-		fim = atual * limit;
-	} 
-			
-	linhas = Math.ceil(paginas/colunas);
-			
-	let pagina_inicial;
-	let pagina_final;
-	let final_bloco;
-	let linha;
-	let i;
-		
-	for(i = 1; i <= linhas; i++){
-			
-		final_bloco = i * colunas;
-			
-		if(final_bloco >= atual){
-				
-			pagina_inicial = ((i - 1) * colunas) + 1;
-				
-			if(final_bloco >= paginas){
-				pagina_final = paginas;
-			}else{
-				pagina_final = final_bloco;
-			}
-				
-			linha = i;
-			break;
-				
-		}
-	}
-			
-	html = "<h2>";
-	let links = new Array();
-	let num;
-			
-	for(i = pagina_inicial; i <= pagina_final; i++){
-				
-		if(i == pagina_inicial){
-					
-			if(i > colunas){
-				html += "<a class='pagina seta' href=''><<<</a>";
-				num = i - 1;
-				links.push(num);
-			}
-		}
-				
-		if(i == atual){
-					
-			html += " <strong><a class='pagina escolhido' href=''>"+i+"</a></strong>";
-			num = i;
-			links.push(num);
-		}else{
-			html += " <a class='pagina comum' href=''>"+i+"</a>";
-			num = i;
-			links.push(num);
-		}
-				
-		if(i == pagina_final){
-			if(i < paginas){
-				html += " <a class='pagina seta' href=''>>>></a>";
-				num = i + 1;
-				links.push(num);
-			}
-		}
-				
-	}
-			
-	html += "</h2>";
-			
-	paginate.innerHTML = html;
-			
-	let a = document.querySelectorAll(".pagina");
-			
-	loadPaginas(a, links);
-			
-}
 
 loadCarrinhos();
 

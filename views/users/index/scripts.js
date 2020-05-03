@@ -4,44 +4,32 @@ const nome = document.querySelector("#nome");
 const page = document.querySelector("#page");
 const pesquisar = document.querySelector("#form-pesquisar");
 const paginate = document.querySelector("#paginate");
-const mensagem = document.querySelector("#msg");
 const inputDelete = document.querySelector("#delete-user");
 const modalUserDeleteBody = document.querySelector("#modal-user-delete-body");
 const btnDeletar = document.querySelector("#btn-deletar");
+
+const objetoMensagem = new Mensagem();
 
 var html, total;
 
 const user = new User();
 
 function loadMsg(){
-	rota.setUrl('json/users.php?opcao=msg');
-	fetch(rota.getUrl())
 	
-	.then(function(response){
-		return response.json();
-	}).then(function(response){
+	resposta = objetoMensagem.get();
+	
+	resposta.then(function(response){
 		let sucess, msg;
 		response.forEach(function(conteudo){
 			sucess = conteudo.tipo;
 			msg = conteudo.msg;
 		});
 		if(sucess){
-			html = "";
-			html += "<div class='msg-head'>";
-			html += "<a href='' class='msg-fechar' id='msg-fechar'>X</a>";
-			html += "</div>";
-			html += "<div class='msg-body'>";
-			html += "<h2>"+msg+"</h2>";
-			html += "</div>";
-			mensagem.innerHTML = html;
-			mensagem.style.visibility = "visible";
-			let aFechar = document.querySelector("#msg-fechar");
-			aFechar.addEventListener('click', function(event){
-				event.preventDefault();
-				mensagem.style.visibility = "hidden";
-			});
+			loadMensagem(sucess, msg);
 		}else{
-			console.log(msg);
+			if(msg != "Nenhuma mensagem encontrada!"){
+				loadMensagem(sucess, msg);
+			}
 		}
 	});
 }
@@ -59,8 +47,8 @@ function loadRemover(usersId){
 			event.preventDefault();
 			inputDelete.value = usuario_id.id;
 			html = "<h2>Você tem certeza de que deseja excluir o usuário "+usuario_id.user_name+"?</h2>";
-			modalUserDeleteBody.innerHTML = html;
-			modalDeleteUser();
+			modalBodyDeleteUser.innerHTML = html;
+			modalDeleteUserShow();
 		});
 		i++;
 	});
@@ -82,7 +70,7 @@ function loadUsers(){
 		html += "<th colspan='2'>Ação</th>";
 		html += '</tr>';
 		
-		let registros;
+		let registros, limit;
 		let usersId = new Array();
 		response.forEach(function(dado){
 			registros = dado.registros;
@@ -101,11 +89,12 @@ function loadUsers(){
 				html += '</tr>';
 				usersId.push({id: usuario.id, user_name: usuario.user_name});
 			});
+			limit = parseInt(dado.limit);
 			total = parseInt(dado.total);
 		});
 		
 		usersTable.innerHTML = html;
-		let links = paginacao(page.value, total, paginate);
+		let links = paginacao(page.value, limit, total, paginate);
 		loadPaginas(links);
 		loadRemover(usersId);
 		
@@ -141,12 +130,10 @@ function deleteUser(){
 			msg = resultado.msg;
 		});
 		if(sucess){
-			fecharModal();
+			modalDeleteUserClose();
 			loadUsers();
-			alert(msg);
-		}else{
-			alert(msg);
 		}
+		loadMensagem(sucess, msg);
 	});
 }
 

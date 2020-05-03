@@ -1,20 +1,38 @@
 function User(){
 
-	this.create = function(nome, email, user_name, passwd, fone, zap, tipo){
+	this.create = function(nome, email, user_name, password, fone, zap, tipo){
 	
-		rota.setUrl('json/users.php?opcao=create&nome='+nome+'&email='+email+'&user_name='+user_name+'&passwd='+passwd+'&fone='+fone+'&zap='+zap+'&tipo='+tipo);
-	
-		return fetch(rota.getUrl())
+		let form = new FormData();
+		form.append('opcao', 'create');
+		form.append('nome', nome);
+		form.append('email', email);
+		form.append('user_name', user_name);
+		form.append('password', password);
+		form.append('fone', fone);
+		form.append('zap', zap);
+		form.append('tipo', tipo);
 		
-		.then(function(response){
+		rota.setUrl('json/users.php');
+	
+		return fetch(rota.getUrl(), {
+			method: 'POST',
+			body: form
+		}).then(function(response){
 		
 			return response.json();
 		});
 	}
 	
 	this.logar = function(user, password){
-		rota.setUrl('json/users.php?opcao=login&user='+user+'&password='+password);
-		return fetch(rota.getUrl())
+		let form = new FormData();
+		form.append('opcao', 'login');
+		form.append('user', user);
+		form.append('password', password);
+		rota.setUrl('json/users.php');
+		return fetch(rota.getUrl(), {
+			method: 'POST',
+			body: form
+		})
 		.then(function(response){
 			return response.json();
 		});
@@ -28,21 +46,41 @@ function User(){
 		});
 	} 
 	
-	this.update = function(id, nome, email, user_name, passwd, fone, zap, tipo){
+	this.update = function(id, nome, email, user_name, password, fone, zap, tipo){
 	
-		rota.setUrl('json/users.php?opcao=update&id='+id+'&nome='+nome+'&email='+email+'&user_name='+user_name+'&password='+passwd+'&fone='+fone+'&zap='+zap+'&tipo='+tipo);
-	
-		return fetch(rota.getUrl())
+		let form = new FormData();
+		form.append('opcao', 'update');
+		form.append('id', id);
+		form.append('nome', nome);
+		form.append('email', email);
+		form.append('user_name', user_name);
+		form.append('password', password);
+		form.append('fone', fone);
+		form.append('zap', zap);
+		form.append('tipo', tipo);
 		
-		.then(function(response){
+		rota.setUrl('json/users.php');
+	
+		return fetch(rota.getUrl(), {
+			method: 'POST',
+			body: form
+		}).then(function(response){
 		
 			return response.json();
 		});
 	}
 	
 	this.delete = function(id_usuario){
-		rota.setUrl('json/users.php?opcao=delete&id='+id_usuario);
-		return fetch(rota.getUrl())
+		let form = new FormData();
+		form.append('opcao', 'delete');
+		form.append('id', id_usuario);
+		
+		rota.setUrl('json/users.php');
+		
+		return fetch(rota.getUrl(), {
+			method: 'POST',
+			body: form
+		})
 		.then(function(response){
 			return response.json();
 		});

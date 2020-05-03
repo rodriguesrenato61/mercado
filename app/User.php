@@ -6,7 +6,7 @@
 	
 	class User{
 		
-		private $pdo, $msg, $user_id, $sessao, $total;
+		private $pdo, $msg, $user_id, $sessao, $total, $limit;
 		
 		public function __construct(){
 			global $connection;
@@ -31,9 +31,10 @@
 			
 			global $connection;
 			
-			$query = ("SELECT COUNT(*) AS total FROM users WHERE email = '".$email."'");
-			
-			$total = $connection->selectCount($query);
+			$sql = $this->pdo->prepare("SELECT COUNT(*) AS total FROM users WHERE email = '".$email."'");
+			$sql->execute();
+			$row = $sql->fetch();
+			$total = $row['total'];
 			
 			if($total > 0){
 				
@@ -43,16 +44,6 @@
 			}else{
 
 				$retorno = $connection->insert_user($nome, $email, $user_name, $passwd, $fone, $zap, $tipo);
-				
-				if($retorno[0]['tipo']){
-					$tipo_id = (int) $tipo;
-					if($tipo_id == 2){
-						$admin_id = $connection->selectIntNumber("SELECT MAX(id) AS ultimo FROM users");
-						$this->sessao->setUser_id($admin_id);
-					}else{
-						$this->sessao->anular();
-					}
-				}
 				
 			}
 			
@@ -65,8 +56,13 @@
 			
 			$sql = $connection->vw_users($nome, $nivel, $page);
 			$this->total = $connection->getTotal();
+			$this->limit = $connection->getLimit();
 			
 			return $sql;
+		}
+		
+		public function getLimit(){
+			return $this->limit;
 		}
 		
 		public function update($id, $nome, $email, $user_name, $passwd, $fone, $zap, $tipo){
@@ -155,7 +151,7 @@
 						}
 					}else{
 						
-						header("Location: ../../404/index.html");
+						header("Location: ../../login/index.php");
 					}
 				break;
 				
@@ -163,7 +159,7 @@
 					
 					if(!$user_id){
 						
-						header("Location: ../../404/index.html");
+						header("Location: ../../login/index.php");
 						
 					}
 				break;
@@ -176,7 +172,7 @@
 						}
 						
 					}else{
-						header("Location: ../../404/index.html");
+						header("Location: ../../login/index.php");
 					}
 				break;
 				
@@ -188,7 +184,7 @@
 						}
 						
 					}else{
-						header("Location: ../../404/index.html");
+						header("Location: ../../login/index.php");
 					}
 				break;
 				
@@ -200,7 +196,19 @@
 						}
 						
 					}else{
-						header("Location: ../../404/index.html");
+						header("Location: ../../login/index.php");
+					}
+				break;
+				
+				case "visualizar usuários":
+					
+					if($user_id){
+						if(!$connection->permite($user_id, 10)){
+							header("Location: ../../404/index.html");
+						}
+						
+					}else{
+						header("Location: ../../login/index.php");
 					}
 				break;
 			}
@@ -234,14 +242,7 @@
 			
 			$mensagem = $this->sessao->getMsg();
 			
-			if($mensagem[0]['sucess']){
-				$this->msg->set(true, $mensagem[0]['msg']);
-				$this->sessao->setMsg(false, "Nenhuma mensagem encontrada!"); 
-			}else{
-				$this->msg->set(false, $mensagem[0]['msg']);
-			}
-			
-			return $this->msg->get();
+			return $mensagem;
 		}
 		
 	}

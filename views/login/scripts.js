@@ -11,12 +11,12 @@ function logar(){
 	if(user.value != "" && password.value != ""){
 		resposta = usuario.logar(user.value, password.value);
 		resposta.then(function(response){
-			let type, msg;
+			let sucess, msg;
 			response.forEach(function(result){
-				type = result.tipo;
-				msg= result.msg;
+				sucess = result.tipo;
+				msg = result.msg;
 			});
-			if(type){
+			if(sucess){
 				rota.redirect('views/homes/admin/index.php');
 			}else{
 				alert(msg);

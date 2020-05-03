@@ -1,102 +1,175 @@
-
-const id = document.querySelector("#id");
-
-const items = document.querySelector("#items");
-
 const barcode = document.querySelector("#barcode");
+
+const pesquisar = document.querySelector("#pesquisar-produto");
+
+const adicionar = document.querySelector("#btn-adicionar");
+
+const produtoDados = document.querySelector("#produto-dados");
 
 const unidades = document.querySelector("#unidades");
 
+const id = document.querySelector("#carrinho_id");
+
+const items = document.querySelector("#items");
+
+const total = document.querySelector("#total-container");
+
 const unidadesEditar = document.querySelector("#unidades-editar");
-
-const form = document.querySelector("#form-procurar");
-
-const total = document.querySelector("#total");
-
-const registrar = document.querySelector("#registrar");
-
-const procurar = document.querySelector("#procurar");
-
-const fechar = document.querySelector("#modal-fechar");
-
-const editarClose = document.querySelector("#modal-editar-fechar");
 
 const salvar = document.querySelector("#salvar");
 
 const id_venda = document.querySelector("#id_venda");
 
-const finalizar = document.querySelector("#finalizar");
+const finalizar = document.querySelector("#btn-finalizar");
 
-var carrinhoDados, totalProdutos;
+const inputDeleteVenda = document.querySelector("#delete-venda-id");
 
-function exibirModal(){
-	if(barcode.value != "" && barcode.value != "0"){
-		modalShow(barcode.value);
-	}else{
-		alert("Coloque o código do produto!");
-	}
+const btnDeletar = document.querySelector("#btn-deletar");
+
+const objetoVenda = new Venda();
+
+const objetoCarrinho = new Carrinho();
+ 
+var totalCarrinho = 0; 
+var totalProdutos = 0;
+
+var html;
+
+btnDeletar.addEventListener('click', function(){
+
+	deleteVenda(inputDeleteVenda.value);
+
+});
+
+function deleteVenda(codigo_produto){
+
+	let resposta = objetoVenda.delete(id.value, codigo_produto);
+	
+	resposta.then(function(response){
+		
+		let sucess, msg;
+		
+		response.forEach(function(result){
+		
+			sucess = result.tipo;
+			msg = result.msg;
+			
+		});
+		
+		if(sucess){
+			loadVendas();
+		}
+		modalDeletarVendaClose();
+		alert(msg);
+	}); 
+	
+}
+
+function loadProduto(){
+	
+	rota.setUrl('json/produtos.php?opcao=get&codigo='+barcode.value);
+	
+	fetch(rota.getUrl())
+		
+	.then(function(response){
+			
+		return response.json();
+		
+	}).then(function(response){
+			
+		html = "";
+		let erro = false;
+				
+		response.forEach(function(produto){
+				
+			if(produto.codigo != null){
+					
+					html += "<strong>Código: </strong>"+produto.codigo+"<br>";
+					html += "<strong>Produto: </strong>"+produto.produto+"<br>";
+					html += "<strong>Categoria: </strong>"+produto.categoria+"<br>";
+					html += "<strong>Preço: </strong>R$ "+produto.pvenda+"<br>";
+					html += "<strong>Estoque: </strong>"+produto.estoque+"<br>";
+					
+			
+			}else{
+				erro = true;
+			}
+				
+		}); 
+		
+		if(!erro){
+			
+			produtoDados.innerHTML = html;
+			unidades.style.visibility = "visible";
+			adicionar.style.visibility = "visible";
+			
+		}else{
+			
+			alert("Produto não encontrado!");
+		}
+		
+	});
+	
+}
+
+function abrirModalEditar(venda_id){
+	
+	rota.setUrl('json/vendas.php?opcao=get&id='+venda_id);
+
+	fetch(rota.getUrl())
+		
+	.then(function(response){
+			
+		return response.json();
+		
+	}).then(function(response){
+			
+		html = "";
+		let erro = false;
+				
+		response.forEach(function(venda){
+				
+			if(venda.codigo != null){
+			
+					html += "<strong>Código: </strong>"+venda.codigo+"<br>";
+					html += "<strong>Produto: </strong>"+venda.produto+"<br>";
+					html += "<strong>Preço: </strong>R$ "+venda.preco+"<br>";
+					html += "<strong>Unidades: </strong> "+venda.unidades+"<br>";
+					
+			}else{
+				erro = true;
+			}
+				
+		}); 
+		
+		if(!erro){
+			modalEditarVendaDados.innerHTML = html;
+			modalEditarVendaShow();
+			
+		}else{
+			alert("Produto não encontrado!");
+		}
+		
+	});
+	
 }
 
 
-function loadRemover(codigos){
+function updateVenda(venda_id){
 	
-	let remover = document.querySelectorAll(".remover");
-		
-	let i = 0;
-		
-	codigos.forEach(function(codigo){
-			
-		remover[i].addEventListener('click', function(event){
-				
-			event.preventDefault();
-				
-			if(confirm("Você tem certeza de que deseja remover esta venda?")){
-				/*
-				let dados = {
-					opc: 'delete',
-					id: id.value,
-					codigo: codigo.value
-				};
-					
-				fetch('http://localhost/carrinho/json/vendas.php', {
-					
-					method: 'POST',
-					body: JSON.stringify(dados)
-					
-				})*/
-				
-				rota.setUrl('json/vendas.php?opcao=delete&id='+id.value+'&codigo='+codigo);
-
-				fetch(rota.getUrl())
-				
-				.then(function(response){
-				
-					return response.json();
-				}).then(function(response){
-					
-					let result;
-					
-					response.forEach(function(registro){
-								
-						result = registro.msg;
-					
-					});
-							
-					if(result == "1"){
-						barcode.value = "";
-						loadVendas();
-						loadTotal();
-						alert("Venda deletada!");
-							
-					}else{
-						alert("Erro, venda não deletada!");
-					}
-				});
-			}
+	resposta = objetoVenda.update(venda_id, unidadesEditar.value);
+	
+	resposta.then(function(response){
+		let msg;
+		response.forEach(function(registro){
+			msg = registro.msg;
 		});
-		
-		i++;
+		loadVendas();
+		unidadesEditar.value = "";
+	}).catch(function(err){
+		alert("Erro ao enviar requisição venda!");
 	});
+
 }
 
 function loadEditar(ids){
@@ -113,66 +186,35 @@ function loadEditar(ids){
 			
 			id_venda.value = venda_id;
 			
-			modalEditarShow(venda_id);
+			abrirModalEditar(venda_id);
 			
-				
 		});
 		i++;
 	});
 }
 
-function loadVendas(){
-	
-	rota.setUrl('json/vendas.php?opcao=index&id='+id.value+'&status=0');
-	
-	fetch(rota.getUrl())
-	
-	.then(function(response){
+
+function abrirModalDelete(dado){
+
+	inputDeleteVenda.value = dado.codigo;
+	modalBodyDeletarvenda.innerHTML = "<h2>Você tem certeza de que deseja deletar o produto "+dado.produto+" deste carrinho?</h2>";
+	modalDeletarVendaShow();
+}
+
+function loadRemover(dados, removeLinks){
 		
-		return response.json();
-	}).then(function(response){
-			
-		let html = "";
-		let codigos = new Array();
-		let ids = new Array();
+	let i = 0;
 		
-		items.innerHTML = "";
-		
-		response.forEach(function(venda){
-	
-			html += "<div class='produto-item'>";
-			html += "<div class='produto-info produto-imagem'>";
-			html += "Imagem";
-			html += "</div>";
-			html += "<div class='produto-info produto-dados'>";
-			html += "<input type='hidden' id='venda_id' value='"+venda.id+"'>";
-			html += "<strong>Código: </strong>"+venda.codigo+"<br>";
-			html += "<strong>Produto: </strong>"+venda.produto+"<br>";
-			html += "<strong>Preço: </strong>R$ "+venda.pvenda+"<br>"
-			html += "<strong>Unidades: </strong> "+venda.unidades+"<br>";
-			html += "<strong>Total: </strong> "+venda.unidades+" x "+venda.pvenda+" = "+venda.total_venda;
-			html += "</div>";
-			html += "<div class='produto-info produto-editar'>";
-			html += "<a href='' class='editar'><img src='"+rota.getRoute("editar-icon")+"' /></a>";
-			html += "</div>";
-			html += "<div class='produto-info produto-remover'>";
-			html += "<a href='' class='remover'><img src='"+rota.getRoute("remover-icon")+"' /></a>";
-			html += "</div>";
-			html += "</div>";
+	dados.forEach(function(dado){
 			
-			console.log(venda.produto);
+		removeLinks[i].addEventListener('click', function(event){
+				
+			event.preventDefault();
 			
-			codigos.push(venda.codigo);
-			ids.push(venda.id);
+			abrirModalDelete(dado);	
 			
 		});
-			
-		items.innerHTML = html;
-		loadRemover(codigos);
-		loadEditar(ids);
-		
-	}).catch(function(err){
-		items.innerHTML = "";
+		i++;
 	});
 }
 
@@ -187,16 +229,16 @@ function loadTotal(){
 		return response.json();
 	}).then(function(response){
 		
-		let html = "";
-		let result, total_unidades;
+		html = "";
+		let result;
 		
 		response.forEach(function(venda){
 			result = venda.total;
-			total_unidades = venda.unidades;
+			totalProdutos = venda.unidades;
 		});
 		
 		if(result != null){
-			html += "<strong>Produtos: </strong>0<br>";
+			html += "<strong>Produtos: </strong>"+totalProdutos+"<br>";
 			html += "<strong>Total: </strong>R$ "+result;
 		}else{
 			html += "<strong>Produtos: </strong>0<br>";
@@ -205,54 +247,100 @@ function loadTotal(){
 		
 		total.innerHTML = html;
 	}).catch(function(err){
-		total.innerHTML = "<strong>Total: </strong> Não encontrado!";
+		total.innerHTML = "<strong>Produtos: </strong>Não encontrado!<br><strong>Total: </strong> Não encontrado!";
 	});
 }
 
+
+function loadVendas(){
+	
+	let resposta = objetoCarrinho.vendas(id.value, 0);
+	
+	resposta.then(function(response){
+			
+		html = "";
+		
+		html += "<tr>";
+		html += "<th>Código</th>";
+		html += "<th>Produto</th>";
+		html += "<th>Preço</th>";
+		html += "<th>Unidades</th>";
+		html += "<th>Total</th>";
+		html += "<th colspan='2'>Ação</th>";
+		html += "</tr>";
+		
+		let dados = new Array();
+		let ids = new Array();
+		let registros;
+		
+		items.innerHTML = html;
+		
+		response.forEach(function(vendas){
+			
+			registros = vendas.registros;
+			
+			registros.forEach(function(venda){
+			
+				html += "<tr>";
+				html += "<td>"+venda.codigo+"</td>";
+				html += "<td class='td-produto'>"+venda.produto+"</td>";
+				html += "<td>R$ "+venda.preco+"</td>";
+				html += "<td>"+venda.unidades+"</td>";
+				html += "<td> R$"+venda.total+"</td>";
+				html += "<td><a href='' class='editar'><img src='"+rota.getRoute("editar-icon")+"' /></a></td>";
+				html += "<td><a href='' class='remover'><img src='"+rota.getRoute("remover-icon")+"' /></a></td>";
+				html += "</tr>";
+				
+				dados.push({codigo: venda.codigo, produto: venda.produto});
+				ids.push(venda.id);
+			
+			});
+			
+			
+		});
+			
+		items.innerHTML = html;
+		
+		loadTotal();
+		loadEditar(ids);
+		let removeLinks = document.querySelectorAll(".remover");
+		loadRemover(dados, removeLinks);
+		
+	}).catch(function(err){
+		html = "";
+		
+		html += "<tr>";
+		html += "<th>Código</th>";
+		html += "<th>Produto</th>";
+		html += "<th>Preço</th>";
+		html += "<th>Unidades</th>";
+		html += "<th>Total</th>";
+		html += "<th colspan='2'>Ação</th>";
+		html += "</tr>";
+		items.innerHTML = html;
+	});
+}
 
 function registrarVenda(){
 	
 	if(barcode.value != "0" && barcode.value != "" && unidades.value != "0" && unidades.value != ""){
 		
-		/*
-		let dados = {
-			opc: 'create',
-			id: id.value,
-			codigo: barcode.value,
-			unidades: unidades.value
-		};
+		let resposta = objetoVenda.create(id.value, barcode.value, unidades.value);
 		
-		fetch('http://localhost/carrinho/json/vendas.php', {
+		resposta.then(function(response){
 			
-			method: 'POST',
-			body: JSON.stringify(dados)
-			
-		})*/
-		
-		rota.setUrl('json/vendas.php?opcao=create&id='+id.value+'&codigo='+barcode.value+'&unidades='+unidades.value);
-		
-		fetch(rota.getUrl())
-		
-		.then(function(response){
-			
-			return response.json();
-		}).then(function(response){
-			let type, msg;
+			let sucess, msg;
 			
 			response.forEach(function(retorno){
-				type = retorno.type;
+				sucess = retorno.tipo;
 				msg = retorno.msg;
 			});
 			
-			if(type == true){
+			if(sucess){
 				loadVendas();
-				loadTotal();
-				barcode.value = "";
-				unidades.value = "";
-			}else{
-				alert(msg);
 			}
-		
+			barcode.value = "";
+			unidades.value = "";
 		});
 	
 	}else{
@@ -262,145 +350,47 @@ function registrarVenda(){
 	}
 }
 
-function updateVenda(venda_id){
-	
-	/*
-	let dados = {
-		opc: 'update',
-		id: venda_id,
-		unidades: unidadesEditar.value
-	};
-	
-	fetch('http://localhost/carrinho/json/vendas.php', {
-		
-			method: 'POST',
-			body: JSON.stringify(dados)
-			
-	})*/
-	
-	rota.setUrl('json/vendas.php?opcao=update&id='+venda_id+'&unidades='+unidadesEditar.value);
-	
-	fetch(rota.getUrl())
-	
-	.then(function(response){
-		return response.json();
-	}).then(function(response){
-		let msg;
-		response.forEach(function(registro){
-			msg = registro.msg;
-		});
-		loadVendas();
-		loadTotal();
-		alert(msg);
-	}).catch(function(err){
-		alert("Erro ao atualizar venda!");
-	});
-
-}
-
-function getCarrinho(){
-	
-	rota.setUrl('json/carrinhos.php?opcao=get&id='+id.value);
-	
-	fetch(rota.getUrl())
-	
-	.then(function(response){
-		
-		return response.json();
-	}).then(function(response){
-		let tmpProdutos;
-		response.forEach(function(registro){
-			
-			if(registro.produtos == null){
-				tmpProdutos = 0;
-			}else{
-				tmpProdutos = registro.produtos;
-			}
-		
-			carrinhoDados = {
-				id: registro.id,
-				produtos: parseInt(tmpProdutos),
-				status: registro.status,
-				total: registro.total,
-				dia: registro.dia,
-				hora: registro.hora
-			};
-			
-			totalProdutos = parseInt(tmpProdutos);
-			
-		});
-		
-	});
-	return carrinhoDados;
-}
-
 function finalizarCarrinho(){
 
-	rota.setUrl('json/carrinhos.php?opcao=finalizar&id='+id.value);
+	resposta = objetoCarrinho.finalizar(id.value);
 	
-	fetch(rota.getUrl())
-	
-	.then(function(response){
-		return response.json();
-	}).then(function(response){
+	resposta.then(function(response){
 		
-		let tipo, msg;
+		let sucess, msg;
 		
 		response.forEach(function(result){
-			tipo = result.tipo;
+			sucess = result.tipo;
 			msg = result.msg;
 		});
 		
-		if(tipo){
-			rota.setUrl('views/carrinhos/index/index.php');
-			window.location.href = rota.getUrl();
+		if(sucess){
+			rota.redirect('views/carrinhos/index/index.php');
 		}else{
-			alert(msg);
+			loadMensagem(sucess, msg);
 		}
 	});
 
 }
 
+loadVendas();
 
-form.addEventListener('submit', function(event){
-	event.preventDefault()
-	exibirModal();
+pesquisar.addEventListener('submit', function(event){
+	event.preventDefault();
+	loadProduto();
 });
 
-
-barcode.addEventListener('focusout', function(){
-	exibirModal();
-});
-
-registrar.addEventListener('click', function(){
+adicionar.addEventListener('click', function(){
+	
 	registrarVenda();
-	modalClose();
-});
-
-fechar.addEventListener('click', function(){
-	modalClose();
-	unidades.value = "";
-	barcode.value = ""; 
-});
-
-editarClose.addEventListener('click', function(){
-	modalEditarClose();
 });
 
 salvar.addEventListener('click', function(){
 	updateVenda(id_venda.value);
-	console.log("Unidades: "+unidadesEditar.value);
-	modalEditarClose();
-	
+	modalEditarVendaClose();
 });
 
 finalizar.addEventListener('click', function(){
 	finalizarCarrinho();
 });
-
-loadVendas();
-loadTotal();
-
-
 
 

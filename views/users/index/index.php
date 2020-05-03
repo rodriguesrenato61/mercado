@@ -5,14 +5,15 @@
 	
 	$user = new User();
 	
-	$user->acessar("visualizar funcionários");
+	$user->acessar("visualizar usuários");
 
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 	<head>
 		<meta charset="utf-8">
-		<link rel="stylesheet" href="../../../css/modal2.css">
+		<link rel="stylesheet" href="../../../css/modal.css">
+		<link rel="stylesheet" href="../../../css/mensagem.css">
 		<link rel="stylesheet" href="../../../css/paginate.css">
 		<link rel="stylesheet" href="styles.css">
 		<title>Funcionários</title>
@@ -62,9 +63,7 @@
 					</form>
 					
 				</div> <!-- class pesquisar -->
-				<div class="msg" id="msg">
-					
-				</div> <!-- class msg -->
+				<?php mensagem(); ?>
 				<div class="users-list">
 					<div class="users-items">
 						<table border="1px" id="users-table">
@@ -88,8 +87,9 @@
 		</div> <!-- class container -->
 	</body>
 	<script src="../../../js/rota.js"></script>
-	<script src="../../../js/modal2.js"></script>
+	<script src="../../../js/modal.js"></script>
 	<script src="../../../js/user.js"></script>
+	<script src="../../../js/mensagem.js"></script>
 	<script src="../../../js/paginate.js"></script>
 	<script src="scripts.js"></script>
 </html>

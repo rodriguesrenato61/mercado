@@ -26,6 +26,9 @@
 					<li>
 						<a href="../../produtos/index/index.php?page=1">PRODUTOS</a>
 					</li>
+					<li>
+						<a href="../../homes/admin/index.php">HOME</a>
+					</li>
 				</ul>
 			</nav>
 			

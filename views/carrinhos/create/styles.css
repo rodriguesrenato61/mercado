@@ -1,149 +1,179 @@
+
+		
 *{
 	margin: 0;
 	padding: 0;
 }
-
-body{
-	
-}
-
-.container{
-	width: 75%;
-	margin: 0 auto;
-	height: 800px;
-}
-
-.nav-superior{
-	background-color: #D8D8D8;
-	height: 50px;
-}
-
-.nav-superior ul{
-	list-style: none;
-}
-
-.nav-superior ul li{
-	float: right;
-	padding-right: 30px;
-	padding-left: 30px;
-	height: 50px;
-}
-
-.nav-superior ul li a{
-	text-decoration: none;
-	color: black;
-	line-height: 50px;
-	font-size: 20px;
-}
-
-.carrinho-container{
-	margin-top: 80px;
-}
-
-input{
-	float: left;
-	margin-right: 10px;
-}
-
-button.procurar{
-	font-size: 20px;
-	height: 43px;
-	width: 100px;
-}
-
-.barcode{
-	width: 300px;
-	height: 40px;
-	font-size: 20px;
-}
-
-.produto-info{
-}
-
-.produto-imagem{
-	height: 100px;
-	float: left;
-	margin-top: 10px;
-	margin-left: 2%;
-	width: 10%;
-}
-
-.produto-dados{
-	width: 75%;
-	height: 100px;
-	float: left;
-	margin-left: 1%;
-	margin-top: 10px;
-	font-size: 13pt;
-}
-
-.items{
-	margin-top: 20px;
-	padding-top: 2px;
+		
+div.container{
 	width: 100%;
-	height: 500px;
+	height: 1000px;
+}
+		
+div.carrinho-container{
+	width: 100%;
+	height: 60%;
+	position: relative;
+	top: 100px;
+}
+		
+div.container1{
+	width: 30%;
+	height: 100%;
 	background-color: #D8D8D8;
-	overflow: auto;
+	float: left;
 }
-
-.produto-item{
-	margin: 15px auto;
-	height: 120px;
-	background-color: #BDBDBD;
+		
+div.produto-container{
+	width: 100%;
+	height: 40%;
+}
+		
+div.container2{
+	float: left;
+	width:70%;
+	height: 100%;
+	background-color: #D8D8D8;
+}
+		
+div.total-container{
 	width: 95%;
-}
-
-.produto-remover{
-	text-align: center;
-	width: 5%;
-	height: 100px;
-	float: left;
-	margin-top: 10px;
-}
-
-.produto-editar{
-	text-align: center;
-	width: 5%;
-	height: 100px;
-	float: left;
-	margin-top: 10px;
-}
-
-
-.total-item{
-	margin-top: 10px;
-	background-color: #BDBDBD;
-	height: 75px;
-}
-
-.total-container{
-	width: 87%;
-	margin-top: 10px;
-	margin-left: 10px;
-	float: left;
+	padding-top: 8px;
+	padding-bottom: 8px;
+	padding-left: 8px;
 	background-color: #FFF;
-	height: 55px;
-	font-size: 25px;
-	line-height: 55px;
-	padding-left: 10px;
+	margin: 50px auto;
+	font-size: 28px;
 }
-
-.btn-finalizar{
-	margin-right: 10px;
-	float: right;
-	width: 10%;
-	font-size: 20px;
-	margin-top: 10px;
-	height: 55px;
+		
+div.finalizar-container{
+	width: 60%;
+	height: 10%;
+	position: relative;
+	border: 1px solid;
+	margin-left: auto;
+	margin-right: auto;
+	top: 70px;
 }
-
-.produto-img{
+		
+div.form-pesquisar{
+	width: 95%;
+	height: 18%;
+	margin: 10px auto;
+}
+		
+#pesquisar-produto{
 	width: 100%;
 	height: 100%;
 }
-
-.produto-vazio{
-	text-align: center;
-	line-height: 120px;
+		
+#barcode{
+	height: 80%;
+	width: 70%;
+	font-size: 23px;
 }
-
+		
+button.pesquisar{
+	width: 20%;
+	height: 88%;
+	font-size: 22px;
+	position: relative;
+	left: 10px;		
+}
+		
+div.produto-info{
+	width: 95%;
+	height: 60%;
+	margin: 15px auto;
+	font-size: 22px;
+}
+		
+div.produto-imagem{
+	width: 36%;
+	height: 75%;
+	float: left;
+}
+		
+div.produto-encontrado{
+	width: 58%;
+	height: 85%;
+	float: left;
+	margin-left: 10px;		
+}
+		
+div.produto-dados{
+	width: 100%;
+	height: 75%;
+}
+		
+div.unidades-container{
+	width: 100%;
+	height: 40px;
+}
+		
+#unidades{
+	width: 35%;
+	height: 100%;
+	font-size: 23px;
+	margin-left: 10px;
+	visibility: hidden;
+}
+		
+#btn-adicionar{
+	width: 40%;
+	height: 113%;
+	font-size: 23px;
+	color: #FFF;
+	background-color: green;
+	position: relative;
+	left: 10px;
+	visibility: hidden;
+}
+		
+#btn-finalizar{
+	width: 100%;
+	height: 100%;
+	font-size: 22px;
+}
+		
+div.carrinho-table{
+	width: 95%;
+	height: 95%;
+	background-color: #FFF;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	top: 2.5%;
+	overflow: auto;
+}
+		
+table#items{
+	width: 100%;
+	font-size: 20px;
+}
+		
+table#items td, th{
+	text-align: center;
+	border: 1px solid;
+}
+		
+button.btn-editar{
+	color: #FFF;
+	background-color: blue;
+}
+		
+button.btn-remover{
+	background-color: red;
+	color: #FFF;
+}
+		
+td.td-produto{
+	width: 40%;
+}
+		
+div.produto-imagem img{
+	width: 100%;
+	height: 100%;
+}
+		
+	

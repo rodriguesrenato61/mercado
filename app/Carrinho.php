@@ -4,7 +4,7 @@
 	
 	class Carrinho{
 		
-		private $pdo, $total;
+		private $pdo, $total, $limit;
 		
 		public function __construct(){
 			global $connection;
@@ -13,42 +13,11 @@
 		
 		public function index($inicio, $fim, $page){
 			
-			$limit = 5;
+			global $connection;
 			
-			$query = "SELECT * FROM vw_carrinhos";
-			$query_total = "SELECT COUNT(*) AS total FROM vw_carrinhos";
-			
-			$clausulas[] = array();
-			$i = 0;
-			
-			if($inicio != null && $inicio != ""){
-				$clausulas[$i] = "dt >= '".$inicio."'";
-				$i++;
-			}
-			
-			if($fim != null && $fim != ""){
-				$clausulas[$i] = "dt <= '".$fim."'";
-				$i++;
-			}
-			
-			for($cont = 0; $cont < $i; $cont++){
-				if($cont == 0){
-					$query .= " WHERE ".$clausulas[$cont];
-					$query_total .= " WHERE ".$clausulas[$cont];
-				}else{
-					$query .= " AND ".$clausulas[$cont];
-					$query_total .= " AND ".$clausulas[$cont];
-				}
-			}
-			
-			$this->setTotal($query_total);
-			
-			if($page != "" && $page != null && $page != "0"){
-				$query .= " LIMIT ".(($page - 1) * $limit).", ".$limit;
-			}
-			
-			$sql = $this->pdo->prepare($query);
-			$sql->execute();
+			$sql = $connection->vw_carrinhos($inicio, $fim, $page);
+			$this->total = $connection->getTotal();
+			$this->limit = $connection->getLimit();
 			
 			return $sql;
 		}
@@ -62,8 +31,7 @@
 			if($total > 0){
 				$retorno[] = array(
 					"tipo" => false,
-					"msg" => "Ainda existe carrinho(s) não terminado(s), deseja criar um novo mesmo assim?",
-					"novo_id" => null
+					"msg" => "Ainda existe carrinho(s) não terminado(s), deseja criar um novo mesmo assim?"
 				);
 			}else{
 				
@@ -184,16 +152,12 @@
 			
 		}
 		
-		public function setTotal($query){
-			$sql = $this->pdo->prepare($query);
-			$sql->execute();
-			$row = $sql->fetch();
-			
-			$this->total = (int) $row['total'];
-		}
-		
 		public function getTotal(){
 			return $this->total;
+		}
+		
+		public function getLimit(){
+			return $this->limit;
 		}
 	}
 

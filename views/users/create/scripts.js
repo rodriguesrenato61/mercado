@@ -53,14 +53,15 @@ function cadastrar(){
 			resposta = users.create(nome.value, email.value, user_name.value, passwd.value, fone.value, zap.value, tipo.value);
 			
 			resposta.then(function(response){
-				let type, msg;
+				
+				let sucess, msg;
 			
 				response.forEach(function(retorno){
-					type = retorno.tipo;
+					sucess = retorno.tipo;
 					msg = retorno.msg;
 				});
 				
-				if(type == true){
+				if(sucess){
 					
 					console.log(msg);
 					

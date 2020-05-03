@@ -68,19 +68,27 @@ button.btn-buscar{
 	width: 30%;
 }
 
-.pesquisar{
-	margin-bottom: 20px;
+div.pesquisar{
+	height: 50px;
 }
 
-.produtos-list{
-	padding-top: 80px;
+div.produtos-list{
+	position: relative;
+	top: 5px;
 }
 		
 #produtos-items{ 
 	width: 100%;
-	height: 500px;
+	height: 300px;
 	overflow: auto;
-	background-color: #BDBDBD;
+}
+
+table#produtos-table{
+	width: 100%;
+}
+
+table#produtos-table td{
+	text-align: center;
 }
 		
 .produto-info{
@@ -123,7 +131,7 @@ button.btn-buscar{
 		
 a.acao{
 	text-decoration: none;
-	line-height: 120px;
+	
 }
 
 .paginate{
@@ -162,129 +170,9 @@ a.seta{
 	height: 43px;4
 }
 
-.modal-fundo{
-	position: fixed;
-	top: 0px;
-	width: 100%;
-	height: 100%;
-	background-color: blue;
-	opacity: 0.2;
-	display: none;
-}
+
 		
-		.modal-meio{
-			position: absolute;
-			top: 100px;
-			width: 100%;
-			display: none;
-		}
 		
-		.modal-meio2{
-			position: absolute;
-			top: 100px;
-			width: 100%;
-			display: none;
-		}
 		
-		.modal-box{
-			width: 60%;
-			margin: 0 auto;
-			height: 300px;
-			background-color: green;
-			padding-top: 20px;
-		}
 		
-		.modal-body{
-			width: 90%;
-			height: 280px;
-			margin-left: auto;
-			margin-right: auto;
-		}
-		
-		.modal-items{
-			height: 100%;
-			float: left;
-		}
-		
-		.modal-imagem{
-			width: 35%;
-		}
-		
-		.modal-campos{
-			width: 60%;
-		}
-		
-		.imagem{
-			width: 80%;
-			height: 160px;
-			border: 1px solid;
-			margin: 10px auto;
-		}
-		
-		.div-btn-imagem{
-			
-			width: 70%;
-			margin: 20px auto;
-		}
-		
-		.btn-imagem{
-			width: 100%;
-			height: 30px; 
-			font-size: 18px;
-		}
-		
-		.modal-campos input, select{
-			margin-top: 10px;
-			margin-right: 20px;
-			font-size: 18px;
-			height: 30px;
-		}
-		
-		.div-buttons{
-			width: 70%;
-			margin: 30px auto;
-			
-		}
-		
-		.modal-campos div button{
-			height: 30px;
-			font-size: 18px;
-			margin-right: 20px;
-			width: 40%;
-		}
-		
-		#codigo_produto{
-			width: 40%;
-		}
-		
-		#nome_produto{
-			width: 85%;
-		}
-		
-		#categoria_produto{
-			width: 70%;
-		}
-		
-		#pcusto{
-			width: 40%;
-		}
-		
-		#pvenda{
-			width: 40%;
-		}
-		
-		#estoque{
-			width: 40%;
-		}
-		
-		#modal-show{
-			width: 100px;
-			height: 40px;
-			font-size: 25px;
-		}
-		
-		.img-carregar{
-			width: 100%;
-			height: 100%;
-		}
 		

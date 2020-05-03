@@ -1,23 +1,16 @@
 <?php
 
+	require_once("database/Mensagem.php");
+
 	class Sessao{
+		
+		private $msg;
 		
 		public function __construct(){
 			
 			session_start();
 			
-			if(!isset($_SESSION['user_id'])){
-				$_SESSION['user_id'] = false;
-			}
-			
-			if(!isset($_SESSION['mercado_id'])){
-				$_SESSION['mercado_id'] = false;
-			}
-			
-			if(!isset($_SESSION['msg'])){
-				$_SESSION['msg']['sucess'] = false;
-				$_SESSION['msg']['msg'] = "Nenhuma mensagem encontrada!";
-			}
+			$this->msg = new Mensagem;
 			
 		}
 		
@@ -26,7 +19,14 @@
 		}
 		
 		public function getUser_id(){
-			return $_SESSION['user_id'];
+			
+			if(isset($_SESSION['user_id'])){
+				$retorno = $_SESSION['user_id'];
+			}else{
+				$retorno = false;
+			}
+			
+			return $retorno;
 		} 
 		
 		public function setMercado_id($mercado_id){
@@ -39,21 +39,30 @@
 		}
 		
 		public function getMercado_id(){
-			return $_SESSION['mercado_id'];
-		} 
-		
-		public function getMsg(){
-			$retorno[] = array(
-				"sucess" => $_SESSION['msg']['sucess'],
-				"msg" => $_SESSION['msg']['msg']
-			);
+			if(isset($_SESSION['mercado_id'])){
+				$retorno = $_SESSION['mercado_id'];
+			}else{
+				$retorno = false;
+			}
+			
 			return $retorno;
 		} 
 		
+		public function getMsg(){
+			
+			if(isset($_SESSION['msg'])){
+				$this->msg->set($_SESSION['msg']['sucess'], $_SESSION['msg']['msg']);
+			}else{
+				$this->msg->set(false, "Nenhuma mensagem encontrada!");
+			}
+			
+			return $this->msg->get();
+		} 
+		
 		public function anular(){
-			$this->setUser_id(false);
-			$this->setMercado_id(false);
-			$this->setMsg(false, "Nenhuma mensagem encontrada!");
+			unset($_SESSION['user_id']);
+			unset($_SESSION['mercado_id']);
+			unset($_SESSION['msg']);
 		}
 		
 		
